@@ -10,4 +10,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Solicitar ruta de salud
-        run: curl --fail --show-error --silent --retry 5 --retry-all-errors --retry-delay 10 --max-time 70 https://novamarket.onrender.com/health
+        run: curl --fail --show-error --silent --retry 5 --retry-all-errors --retry-delay 10 --max-time 70 https://novamarket-9ztv.onrender.com/health
