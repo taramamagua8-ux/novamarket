@@ -1,0 +1,8 @@
+__pycache__/
+*.py[cod]
+.env
+instance/
+bd_novarket.sql
+datos que debes saber gaby lol.md
+static/comprobantes/
+static/fotos_perfil/

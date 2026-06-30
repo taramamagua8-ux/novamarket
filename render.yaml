@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: novamarket
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --bind 0.0.0.0:$PORT app:app
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.5
+      - key: NOVARKET_SECRET_KEY
+        generateValue: true
+      - key: NOVARKET_ADMIN_EMAIL
+        value: admin@demo.local
+      - key: NOVARKET_ADMIN_PASSWORD
+        value: demo123

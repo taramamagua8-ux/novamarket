@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario Cliente</title>
+    
+    <style>
+    
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+@keyframes luzMovil{
+    0%{
+        background-position:0% 0%;
+    }
+    50%{
+        background-position:100% 100%;
+    }
+    100%{
+        background-position:0% 0%;
+    }
+}
+
+body{
+    position:relative;
+
+    background:radial-gradient(
+        circle at center,
+        #bd122e 0%,
+        rgb(14,31,48) 70%
+    );
+
+    background-size:200% 200%;
+    animation:luzMovil 20s ease-in-out infinite;
+
+    color:white;
+    font-family:Arial, Helvetica, sans-serif;
+
+    min-height:100vh;
+}
+
+body::before{
+    content:"";
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:100%;
+    height:100%;
+
+    background-image:url("{{ url_for('static', filename='img/fondo_formularios.webp') }}");
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+
+    opacity:.45;
+
+    z-index:0;
+    pointer-events:none;
+}
+
+/* ==========================
+   CONTENEDOR PRINCIPAL
+========================== */
+
+.form-pantalla{
+    width:100%;
+    min-height:100vh;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    position:relative;
+    z-index:1;
+}
+
+.form-fondo{
+    position:absolute;
+    inset:0;
+
+    background:rgba(0,0,0,.35);
+}
+
+/* ==========================
+   TARJETA CRISTAL
+========================== */
+
+.form-card{
+    position:relative;
+    z-index:2;
+
+    width:650px;
+    max-width:95%;
+
+    padding:40px;
+
+    border-radius:30px;
+
+    background:rgba(255,255,255,.10);
+
+    backdrop-filter:blur(25px);
+    -webkit-backdrop-filter:blur(25px);
+
+    border:1px solid rgba(255,255,255,.15);
+
+    box-shadow:
+        0 8px 35px rgba(0,0,0,.45);
+
+    display:flex;
+    flex-direction:column;
+}
+
+.cliente-card{
+    background:rgba(255,255,255,.10);
+}
+
+/* ==========================
+   TITULO
+========================== */
+
+.form-card h1{
+    text-align:center;
+
+    color:white;
+
+    font-size:55px;
+    font-weight:900;
+
+    margin-bottom:30px;
+
+    text-shadow:
+        0 0 20px rgba(255,255,255,.15);
+}
+
+/* ==========================
+   FORMULARIO
+========================== */
+
+.form-card form{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+.form-card input,
+.form-card select{
+    width:100%;
+
+    height:60px;
+
+    border:none;
+
+    border-radius:18px;
+
+    padding:0 20px;
+
+    font-size:18px;
+
+    outline:none;
+
+    background:rgba(255,255,255,.95);
+
+    box-shadow:
+        0 4px 15px rgba(0,0,0,.15);
+}
+
+/* ==========================
+   DOBLE INPUT
+========================== */
+
+.direccion-doble{
+    display:flex;
+    gap:15px;
+}
+
+.direccion-doble input{
+    width:50%;
+}
+
+/* ==========================
+   BOTON
+========================== */
+
+.btn-cliente-enviar{
+    height:65px;
+
+    border:none;
+
+    border-radius:18px;
+
+    background:#19b54a;
+
+    color:white;
+
+    font-size:22px;
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.btn-cliente-enviar:hover{
+    transform:translateY(-3px);
+
+    box-shadow:
+        0 10px 25px rgba(25,181,74,.45);
+}
+
+/* ==========================
+   BOTON CERRAR
+========================== */
+
+.form-cerrar{
+    position:absolute;
+
+    right:20px;
+    top:15px;
+
+    color:white;
+
+    text-decoration:none;
+
+    font-size:32px;
+    font-weight:bold;
+
+    transition:.3s;
+}
+
+.form-cerrar:hover{
+    transform:scale(1.15);
+}
+
+/* ==========================
+   RESPONSIVE
+========================== */
+
+@media(max-width:768px){
+
+    .form-card{
+        width:95%;
+        padding:25px;
+    }
+
+    .form-card h1{
+        font-size:40px;
+    }
+
+    .direccion-doble{
+        flex-direction:column;
+    }
+
+    .direccion-doble input{
+        width:100%;
+    }
+}
+ </style>
+</head>
+
+<body>
+
+    <div class="form-pantalla">
+
+        <div class="form-fondo"></div>
+
+        <div class="form-card cliente-card">
+
+            <a href="/acceso" class="form-cerrar">
+                ✕
+            </a>
+
+            <h1>
+                CLIENTE
+            </h1>
+
+            <form action="{{ url_for('menu') }}" method="POST">
+
+                <input type="text" name="usuario" placeholder="NOMBRE USUARIO" required>
+
+                <input type="password" name="password" placeholder="CONTRASEÑA:" required>
+
+                <input type="email" name="correo" placeholder="CORREO ELECTRONICO:" required>
+
+                <input type="tel" name="telefono" placeholder="TELEFONO:" required>
+
+                <select name="sexo" required>
+                    <option value="" selected disabled>
+                        SEXO
+                    </option>
+                    <option value="Masculino">
+                        Masculino
+                    </option>
+                    <option value="Femenino">
+                        Femenino
+                    </option>
+                    <option value="Otro">
+                        Otro
+                    </option>
+                </select>
+
+                <input type="text" name="cp" placeholder="CÓDIGO POSTAL:" required>
+
+                <input type="text" name="colonia_barrio" placeholder="COLONIA O BARRIO:" required>
+
+                <div class="direccion-doble">
+                    <input type="text" name="calle" placeholder="CALLE:" required>
+                    <input type="text" name="num_ext" placeholder="NUMERO EXTERIOR:" required>
+                    <input type="text" name="num_int" placeholder="NUMERO INTERIOR:" required>
+                </div>
+
+                <button type="submit" class="btn-cliente-enviar">
+                    CREAR CUENTA
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

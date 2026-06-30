@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<!-- Esta linea le dice al navegador que estamos usando la version mas nueva de HTML (HTML5) -->
+<html lang="es">
+<!-- El atributo lang="es" indica que el contenido principal esta en español, para ayudar a los traductores y navegadores -->
+
+<head>
+    <!-- El head es la parte invisible de la pagina, donde van configuraciones y enlaces a archivos externos -->
+    <meta charset="UTF-8">
+    <!-- charset UTF-8 permite usar letras con acentos, ñ, y simbolos especiales sin que se vean raro -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <!-- Esta linea hace que la pagina se vea bien en celulares y tablets, ajustando el ancho al dispositivo y permitiendo hacer zoom -->
+    <title>Registro de Local - NovaMarket</title>
+    <!-- El titulo que aparece en la pestaña del navegador -->
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/NovamarketLogoDEFINITIVO.png') }}">
+    <!-- El icono pequeño que se ve en la pestaña al lado del titulo. Si no encuentra la imagen, no pasa nada grave -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mi_local.css') }}">     <!-- Conecta una hoja de estilos externa (si existe) para darle diseño a la pagina. Se llama mi_local.css -->
+    <style>
+        /* Este bloque style es CSS escrito directamente aqui, sin necesidad de otro archivo */
+        /* Sirve para dar estilos a elementos especiales que no estaban en el CSS externo */
+        
+        /* Estilo para los botones de accion (editar, borrar, subir) */
+        .btn-accion {
+            background: #2c3e50; /* Color de fondo azul oscuro */
+            border: none; /* Sin borde */
+            color: #fff; /* Texto blanco */
+            padding: 6px 12px; /* Espacio interno: arriba/abajo 6px, izquierda/derecha 12px */
+            border-radius: 30px; /* Bordes redondeados*/
+            font-size: 0.75rem; /* Tamaño de letra pequeno (12px aproximadamente) */
+            font-weight: 600; /* Negrita pero no demasiado */
+            cursor: pointer; /* El cursor cambia a una manita al pasar por encima para indicar que se puede hacer clic */
+            transition: all 0.2s ease; /* Animacion suave cuando cambia de color o tamaño */
+            margin: 4px 6px 4px 0; /* Margen: arriba 4, derecha 6, abajo 4, izquierda 0, para separar botones */
+            display: inline-flex; /* Los botones se comportan como elementos en linea pero con flexibilidad */
+            align-items: center; /* Centra el contenido verticalmente */
+            gap: 6px; /* Espacio entre el texto y posibles iconos */
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* Sombra muy ligera debajo */
+        }
+        /* Boton editar: fondo naranja */
+        .btn-accion.editar {
+            background: #f39c12;
+        }
+        /* Cuando pasas el mouse por encima del boton editar, se oscurece un poco y crece */
+        .btn-accion.editar:hover {
+            background: #e67e22;
+            transform: scale(1.02);
+        }
+        /* Boton borrar: fondo rojo */
+        .btn-accion.borrar {
+            background: #e74c3c;
+        }
+        /* Efecto hover para borrar */
+        .btn-accion.borrar:hover {
+            background: #c0392b;
+            transform: scale(1.02);
+        }
+        /* Boton subir: fondo verde */
+        .btn-accion.subir {
+            background: #27ae60;
+        }
+        /* Efecto hover para subir */
+        .btn-accion.subir:hover {
+            background: #2ecc71;
+        }
+        /* Efecto general para cualquier boton de accion */
+        .btn-accion:hover {
+            filter: brightness(0.95); /* Hace el color un poco mas oscuro */
+            transform: translateY(-1px); /* Levanta el boton un pixel */
+        }
+        /* Contenedor de la foto de perfil del local */
+        .perfil-local {
+            background: #f9f9fc; /* Color de fondo gris muy clarito */
+            border-radius: 24px; /* Bordes redondeados */
+            padding: 16px; /* Espacio interno */
+            margin-bottom: 25px; /* Separacion con lo que sigue */
+            text-align: center; /* Todo el texto centrado */
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05); /* Sombra suave */
+        }
+        /* Estilo de la imagen de perfil (el circulo) */
+        .imagen-perfil {
+            width: 120px; /* Ancho fijo */
+            height: 120px; /* Alto fijo, cuadrado */
+            object-fit: cover; /* La imagen se recorta para llenar el cuadrado sin deformarse */
+            border-radius: 50%; /* La hace circular */
+            border: 3px solid #fff; /* Borde blanco alrededor */
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15); /* Sombra mas pronunciada */
+            margin-bottom: 12px; /* Separacion inferior */
+            background: #ecf0f1; /* Color de fondo mientras carga */
+        }
+        /* Grupo de botones debajo de la foto de perfil */
+        .grupo-botones-perfil {
+            display: flex; /* Los botones se ponen en fila */
+            justify-content: center; /* Centrados horizontalmente */
+            gap: 12px; /* Separacion entre botones */
+            flex-wrap: wrap; /* Si no caben, se bajan a la siguiente linea */
+            margin-top: 10px;
+        }
+        /* Cada item de la galeria (imagen, video, audio) se ve como una tarjeta */
+        .preview-item {
+            background: white;
+            border-radius: 20px;
+            padding: 12px;
+            margin-bottom: 18px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column; /* El contenido se apila verticalmente */
+            align-items: center;
+        }
+        /* La galeria moderna usa una cuadricula responsiva */
+        .galeria-moderna {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* Cada columna mide al menos 180px y se estira */
+            gap: 20px; /* Espacio entre tarjetas */
+            margin-top: 15px;
+        }
+        /* Cada tarjeta de media (imagen, video) */
+        .media-card {
+            background: #fff;
+            border-radius: 24px;
+            overflow: hidden; /* Para que el contenido redondeado no se salga */
+            box-shadow: 0 5px 12px rgba(0,0,0,0.08);
+            transition: transform 0.2s;
+            text-align: center;
+        }
+        /* Al pasar el mouse, la tarjeta se levanta un poco */
+        .media-card:hover {
+            transform: translateY(-5px);
+        }
+        /* Imagen o video dentro de la tarjeta */
+        .media-card img, .media-card video {
+            width: 100%;
+            max-height: 140px;
+            object-fit: cover;
+            background: #f0f2f5;
+        }
+        /* Reproductor de audio dentro de la tarjeta */
+        .media-card audio {
+            width: 90%;
+            margin: 10px auto;
+        }
+        /* Botones pequeños dentro de la tarjeta */
+        .card-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 8px 0 12px;
+            background: #fefefe;
+        }
+        /* Estilo de los botones mini (editar/borrar en cada archivo) */
+        .btn-mini {
+            background: #ecf0f1;
+            border: none;
+            border-radius: 40px;
+            padding: 5px 12px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+        .btn-mini.editar-mini {
+            background: #f1c40f;
+            color: #2c3e50;
+        }
+        .btn-mini.borrar-mini {
+            background: #e74c3c;
+            color: white;
+        }
+        .btn-mini:hover {
+            opacity: 0.85;
+        }
+        /* Vista previa de la imagen principal con botones */
+        .imagen-principal-preview {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: #f8f9fa;
+            border-radius: 20px;
+            padding: 12px 18px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        /* Miniatura de la imagen principal */
+        .preview-img-principal {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 16px;
+            background: #ddd;
+        }
+        /* Texto informativo sobre el archivo */
+        .info-media {
+            font-size: 0.75rem;
+            color: #2c3e50;
+            font-weight: 500;
+            word-break: break-all; /* Si el nombre es muy largo, se corta y sigue en la siguiente linea */
+        }
+        /* Titulo de cada seccion con una linea naranja a la izquierda */
+        .seccion-titulo {
+            border-left: 5px solid #f39c12;
+            padding-left: 12px;
+            margin: 20px 0 12px 0;
+        }
+        /* Boton guardar mas grande y con degradado */
+        .botones .guardar {
+            background: linear-gradient(135deg, #2c3e50, #1a2632);
+            padding: 12px 28px;
+            font-size: 1rem;
+        }
+        /* Boton volver con margen superior */
+        .volver-final {
+            margin-top: 30px;
+        }
+
+        @keyframes luzMovil {
+            0%   { background-position: 0% 0%; }
+            50%  { background-position: 100% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+
+        body {
+                /* Un círculo de luz roja que se difumina hacia el azul oscuro oscuro */
+            background: radial-gradient(circle at center, #bd122e 0%, rgb(41, 103, 164) 70%);
+            background-size: 200% 200%; /* Agrandamos el radio para poder moverlo */
+            animation: luzMovil 20s ease-in-out infinite;
+            color: rgb(0, 0, 0);
+            font-family: Arial, Helvetica, sans-serif;
+        } 
+
+        .navbar-contenedor{
+    position: relative;
+    width: 100%;
+}
+
+.navbar-imagen{
+    width: 100%;
+    display: block;
+}
+
+.contenedor-3d{
+    position: absolute;
+    top: 0;
+    left: 20px;
+    width: 350px;
+    height: 250px;
+    z-index: 1000;
+}
+
+.objeto-3d{
+    width: 100%;
+    height: 100%;
+}
+    </style>
+</head>
+<body>
+
+    <!-- BARRA DE NAVEGACION (navbar) -->
+    <header class="navbar-contenedor">
+        <!-- Imagen del fondo de la barra de navegacion -->
+        <img src="{{ url_for('static', filename='img/navbar.png') }}" alt="Navbar" class="navbar-imagen">
+        <!-- Contenedor para el modelo 3D (un objeto que rota) -->
+        <div class="contenedor-3d">
+            <!-- Modelo 3D (glb) que se puede ver desde cualquier angulo -->
+            <model-viewer
+                class="objeto-3d"
+                src="{{ url_for('static', filename='img/LogoNovarket5.glb') }}"
+                camera-control
+                interaction-prompt="none"
+                camera-orbit="0deg 75deg auto"
+                field-of-view="40deg"
+                auto-rotate
+                rotation-per-second="30deg">
+            </model-viewer>
+        </div>
+    </header>
+
+    <!-- Contenedor principal de todo el contenido -->
+    <div class="contenedor">
+        <div class="formulario">
+            
+            <h1>Informacion del Local</h1>
+
+            <!-- Seccion para la foto de perfil del local -->
+            <div class="perfil-local">
+                <h2>Foto de Perfil del Local</h2>
+                <!-- Donde se muestra la foto de perfil -->
+                <img src="{{ url_for('static', filename='img/NovamarketLogoDEFINITIVO.png') }}" id="vistaPerfil" class="imagen-perfil" alt="Foto perfil">
+                <!-- Grupo de botones: subir, editar, borrar -->
+                <div class="grupo-botones-perfil">
+                    <!-- Label actua como boton para abrir el selector de archivos -->
+                    <label for="fotoPerfil" class="btn-accion subir"> Subir Foto</label>
+                    <button type="button" id="editarPerfilBtn" class="btn-accion editar"> Editar Foto</button>
+                    <button type="button" id="borrarPerfilBtn" class="btn-accion borrar"> Borrar Foto</button>
+                </div>
+                <!-- Input oculto para seleccionar archivo de imagen -->
+                <input type="file" id="fotoPerfil" accept="image/*" style="display: none;">
+            </div>
+
+            <!-- Campos de texto simples -->
+            <div class="campo">
+                <label>Nombre del Local</label>
+            </div>
+           <form action="{{ url_for('guardar_local') }}" method="POST">
+        <input
+            type="text"
+            id="nombreLocal"
+            name="nombre"
+            value="{{ local.nombre_local if local else '' }}"
+            required>
+    </div>
+
+    <div class="campo">
+        <label>Tipo de Producto</label>
+        <select
+            id="tipoProducto"
+            name="tipo">
+
+            {% set tipo_actual = local.tipo_producto if local else '' %}
+            <option value="Comida" {% if tipo_actual == 'Comida' %}selected{% endif %}>Comida</option>
+            <option value="Ropa" {% if tipo_actual == 'Ropa' %}selected{% endif %}>Ropa</option>
+            <option value="Tecnologia" {% if tipo_actual == 'Tecnologia' %}selected{% endif %}>Tecnología</option>
+            <option value="Productos variados" {% if tipo_actual == 'Productos variados' %}selected{% endif %}>Productos variados</option>
+
+        </select>
+    </div>
+
+    <div class="campo">
+        <label>Horario</label>
+        <input
+            type="text"
+            id="horario"
+            name="horario"
+            value="{{ local.horario if local else '' }}">
+    </div>
+
+    <div class="campo">
+        <label>Nombre del Encargado</label>
+        <input
+            type="text"
+            id="encargado"
+            name="encargado"
+            value="{{ local.encargado if local else '' }}">
+    </div>
+
+    <div class="campo">
+        <label>Telefono</label>
+        <input
+            type="tel"
+            id="telefono"
+            name="telefono"
+            value="{{ local.Telefono if local else '' }}">
+    </div>
+
+            <!-- Imagen principal del local -->
+            <div class="campo">
+                <label> Imagen Principal del Local</label>
+                <input type="file" id="imagenPrincipal" accept="image/*">
+                <!-- Aqui se mostrara la previsualizacion de la imagen principal junto con botones -->
+                <div id="vistaImagenPrincipal" class="imagen-principal-preview" style="min-height: 70px;">
+                    <span class="info-media"> Aun no hay imagen principal</span>
+                </div>
+            </div>
+
+            <!-- Galeria de imagenes (varias fotos) -->
+            <div class="campo">
+                <label> Galeria de Imagenes</label>
+                <!-- Boton que dispara el input oculto para subir varias imagenes -->
+                <label for="imagenes" class="btn-accion subir"> Subir Imagenes</label>
+                <input type="file" id="imagenes" accept="image/*" multiple style="display: none;">
+                <!-- Aqui se pintaran las imagenes con sus botones editar/borrar -->
+                <div id="vistaImagenes" class="galeria-moderna">
+                </div>
+            </div>
+
+            <!-- Videos -->
+            <div class="campo">
+                <label> Videos del Local</label>
+                <label for="videos" class="btn-accion subir"> Subir Videos</label>
+                <input type="file" id="videos" accept="video/*" multiple style="display: none;">
+                <div id="vistaVideos" class="galeria-moderna"></div>
+            </div>
+
+            <!-- Audios -->
+            <div class="campo">
+                <label> Audios del Local</label>
+                <label for="audios" class="btn-accion subir"> Subir Audios</label>
+                <input type="file" id="audios" accept="audio/*" multiple style="display: none;">
+                <div id="vistaAudios" class="galeria-moderna"></div>
+            </div>
+
+        </div>
+
+        <!-- Seccion de previsualizacion global (resumen) -->
+        <div class="previsualizacion">
+            <h2> Contenido Subido</h2>
+            <p><small>Usa los botones Editar / Borrar en cada elemento</small></p>
+            <div id="resumenMultimedia"></div>
+        </div>
+
+        <button
+        type="submit"
+        class="guardar">
+
+        Guardar Información
+
+    </button>
+
+        <!-- Boton para regresar a la pagina anterior -->
+        <div class="volver-final">
+        <a href="{{ url_for('menu_vendedor') }}" class="btn-volver-final">
+            ← Volver al Menú
+        </a>
+        </div>
+    </div>
+
+
+    
+    </form>
+
+    <!-- Cargar la libreria model-viewer para ver modelos 3D -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.2.0/model-viewer.min.js"></script>
+
+    <script>
+        // --------------------------------------------------------------
+        // TODO EL CODIGO JAVASCRIPT QUE HACE QUE LA PAGINA FUNCIONE
+        // --------------------------------------------------------------
+        
+        // --- VARIABLES GLOBALES (estado central donde guardamos los archivos) ---
+        let profileImageFile = null;        // Aqui guardamos el archivo de la foto de perfil
+        let mainImageFile = null;           // Aqui guardamos el archivo de la imagen principal
+        let galleryImages = [];              // Arreglo donde guardamos las imagenes de la galeria, cada una con su archivo y su URL temporal
+        let videosArray = [];                // Arreglo para los videos
+        let audiosArray = [];                // Arreglo para los audios
+
+        // --- OBTENER REFERENCIAS A LOS ELEMENTOS DEL HTML ---
+        const vistaPerfil = document.getElementById('vistaPerfil');
+        const inputFotoPerfil = document.getElementById('fotoPerfil');
+        const inputImagenPrincipal = document.getElementById('imagenPrincipal');
+        const inputImagenes = document.getElementById('imagenes');
+        const inputVideos = document.getElementById('videos');
+        const inputAudios = document.getElementById('audios');
+        const vistaImagenesDiv = document.getElementById('vistaImagenes');
+        const vistaVideosDiv = document.getElementById('vistaVideos');
+        const vistaAudiosDiv = document.getElementById('vistaAudios');
+        const vistaImgPrincipalDiv = document.getElementById('vistaImagenPrincipal');
+
+        // --- FUNCION AUXILIAR: liberar las URLs que creamos para no sobrecargar la memoria ---
+        function revocarURLs(array) {
+            array.forEach(item => {
+                if (item.url) URL.revokeObjectURL(item.url); // Esto elimina la referencia a la URL temporal
+            });
+        }
+
+        // --- ACTUALIZAR LA VISTA DE LA FOTO DE PERFIL ---
+        function actualizarVistaPerfil() {
+            if (profileImageFile) {
+                // Si hay un archivo, creamos una URL temporal para mostrarlo
+                const url = URL.createObjectURL(profileImageFile);
+                vistaPerfil.src = url;
+                // Liberamos la URL anterior si existia para no desperdiciar memoria
+                if (vistaPerfil._currentURL && vistaPerfil._currentURL !== url) {
+                    URL.revokeObjectURL(vistaPerfil._currentURL);
+                }
+                vistaPerfil._currentURL = url; // Guardamos la URL actual para liberarla despues
+            } else {
+                // Si no hay archivo, mostramos la imagen por defecto
+                vistaPerfil.src = "{{ url_for('static', filename='img/NovamarketLogoDEFINITIVO.png') }}";
+                if (vistaPerfil._currentURL) {
+                    URL.revokeObjectURL(vistaPerfil._currentURL);
+                    vistaPerfil._currentURL = null;
+                }
+            }
+        }
+
+        // --- ACTUALIZAR LA VISTA DE LA IMAGEN PRINCIPAL CON SUS BOTONES ---
+        function actualizarImagenPrincipalPreview() {
+            vistaImgPrincipalDiv.innerHTML = ''; // Limpiamos el contenedor
+            if (mainImageFile) {
+                const url = URL.createObjectURL(mainImageFile); // URL temporal para mostrar
+                const container = document.createElement('div');
+                container.style.display = 'flex';
+                container.style.alignItems = 'center';
+                container.style.gap = '16px';
+                container.style.flexWrap = 'wrap';
+                
+                // Miniatura de la imagen
+                const img = document.createElement('img');
+                img.src = url;
+                img.style.width = '90px';
+                img.style.height = '90px';
+                img.style.objectFit = 'cover';
+                img.style.borderRadius = '18px';
+                
+                // Nombre del archivo
+                const info = document.createElement('span');
+                info.className = 'info-media';
+                info.innerText = ` ${mainImageFile.name.substring(0, 25)}`; // Mostramos solo primeros 25 caracteres
+                
+                // Boton editar
+                const btnEditar = document.createElement('button');
+                btnEditar.innerText = ' Editar';
+                btnEditar.className = 'btn-mini editar-mini';
+                btnEditar.onclick = () => {
+                    // Creamos un input invisible para que el usuario seleccione una nueva imagen
+                    const fakeInput = document.createElement('input');
+                    fakeInput.type = 'file';
+                    fakeInput.accept = 'image/*';
+                    fakeInput.onchange = (e) => {
+                        if (e.target.files && e.target.files[0]) {
+                            // Liberamos la URL vieja y reemplazamos el archivo
+                            if (mainImageFile) URL.revokeObjectURL(URL.createObjectURL(mainImageFile));
+                            mainImageFile = e.target.files[0];
+                            actualizarImagenPrincipalPreview(); // Refrescamos la vista
+                        }
+                    };
+                    fakeInput.click();
+                };
+                
+                // Boton borrar
+                const btnBorrar = document.createElement('button');
+                btnBorrar.innerText = ' Borrar';
+                btnBorrar.className = 'btn-mini borrar-mini';
+                btnBorrar.onclick = () => {
+                    if (mainImageFile) {
+                        URL.revokeObjectURL(URL.createObjectURL(mainImageFile)); // Liberamos memoria
+                        mainImageFile = null;
+                        actualizarImagenPrincipalPreview();
+                    }
+                };
+                
+                container.appendChild(img);
+                container.appendChild(info);
+                container.appendChild(btnEditar);
+                container.appendChild(btnBorrar);
+                vistaImgPrincipalDiv.appendChild(container);
+            } else {
+                // Si no hay imagen, mostramos un mensaje
+                vistaImgPrincipalDiv.innerHTML = '<span class="info-media"> Sin imagen principal. Sube una arriba.</span>';
+            }
+        }
+
+        // --- RENDERIZAR LA GALERIA DE IMAGENES (cada imagen con sus botones) ---
+        function renderGalleryImages() {
+            vistaImagenesDiv.innerHTML = '';
+            if (galleryImages.length === 0) {
+                vistaImagenesDiv.innerHTML = '<div style="padding:20px; text-align:center; background:#f4f6f9; border-radius:30px;"> No hay imagenes en galeria. Sube algunas.</div>';
+                return;
+            }
+            // Recorremos cada imagen del arreglo y creamos una tarjeta
+            galleryImages.forEach((item, idx) => {
+                const card = document.createElement('div');
+                card.className = 'media-card';
+                const img = document.createElement('img');
+                img.src = item.url;
+                img.alt = `img-${idx}`;
+                const divBtns = document.createElement('div');
+                divBtns.className = 'card-buttons';
+                
+                // Boton editar
+                const btnEdit = document.createElement('button');
+                btnEdit.innerText = ' Editar';
+                btnEdit.className = 'btn-mini editar-mini';
+                btnEdit.onclick = () => {
+                    // Input invisible para cambiar esta imagen
+                    const input = document.createElement('input');
+                    input.type = 'file';
+                    input.accept = 'image/*';
+                    input.onchange = (e) => {
+                        if (e.target.files && e.target.files[0]) {
+                            const newFile = e.target.files[0];
+                            const newURL = URL.createObjectURL(newFile);
+                            URL.revokeObjectURL(galleryImages[idx].url); // Liberamos la URL vieja
+                            galleryImages[idx] = { file: newFile, url: newURL };
+                            renderGalleryImages(); // Volvemos a dibujar toda la galeria
+                        }
+                    };
+                    input.click();
+                };
+                
+                // Boton borrar
+                const btnDelete = document.createElement('button');
+                btnDelete.innerText = ' Borrar';
+                btnDelete.className = 'btn-mini borrar-mini';
+                btnDelete.onclick = () => {
+                    URL.revokeObjectURL(galleryImages[idx].url);
+                    galleryImages.splice(idx, 1); // Eliminamos la imagen del arreglo
+                    renderGalleryImages(); // Refrescamos
+                };
+                
+                divBtns.appendChild(btnEdit);
+                divBtns.appendChild(btnDelete);
+                card.appendChild(img);
+                card.appendChild(divBtns);
+                vistaImagenesDiv.appendChild(card);
+            });
+        }
+
+        // --- RENDERIZAR VIDEOS (similar a las imagenes) ---
+        function renderVideos() {
+            vistaVideosDiv.innerHTML = '';
+            if (videosArray.length === 0) {
+                vistaVideosDiv.innerHTML = '<div style="padding:20px; text-align:center; background:#f4f6f9; border-radius:30px;"> No hay videos subidos.</div>';
+                return;
+            }
+            videosArray.forEach((item, idx) => {
+                const card = document.createElement('div');
+                card.className = 'media-card';
+                const video = document.createElement('video');
+                video.src = item.url;
+                video.controls = true; // Muestra los controles de play/pausa
+                video.style.width = '100%';
+                video.style.maxHeight = '140px';
+                const divBtns = document.createElement('div');
+                divBtns.className = 'card-buttons';
+                
+                const btnEdit = document.createElement('button');
+                btnEdit.innerText = ' Editar';
+                btnEdit.className = 'btn-mini editar-mini';
+                btnEdit.onclick = () => {
+                    const input = document.createElement('input');
+                    input.type = 'file';
+                    input.accept = 'video/*';
+                    input.onchange = (e) => {
+                        if (e.target.files && e.target.files[0]) {
+                            const newFile = e.target.files[0];
+                            const newURL = URL.createObjectURL(newFile);
+                            URL.revokeObjectURL(videosArray[idx].url);
+                            videosArray[idx] = { file: newFile, url: newURL };
+                            renderVideos();
+                        }
+                    };
+                    input.click();
+                };
+                
+                const btnDelete = document.createElement('button');
+                btnDelete.innerText = ' Borrar';
+                btnDelete.className = 'btn-mini borrar-mini';
+                btnDelete.onclick = () => {
+                    URL.revokeObjectURL(videosArray[idx].url);
+                    videosArray.splice(idx, 1);
+                    renderVideos();
+                };
+                
+                divBtns.appendChild(btnEdit);
+                divBtns.appendChild(btnDelete);
+                card.appendChild(video);
+                card.appendChild(divBtns);
+                vistaVideosDiv.appendChild(card);
+            });
+        }
+
+        // --- RENDERIZAR AUDIOS ---
+        function renderAudios() {
+            vistaAudiosDiv.innerHTML = '';
+            if (audiosArray.length === 0) {
+                vistaAudiosDiv.innerHTML = '<div style="padding:20px; text-align:center; background:#f4f6f9; border-radius:30px;"> No hay audios disponibles.</div>';
+                return;
+            }
+            audiosArray.forEach((item, idx) => {
+                const card = document.createElement('div');
+                card.className = 'media-card';
+                const audio = document.createElement('audio');
+                audio.src = item.url;
+                audio.controls = true;
+                audio.style.width = '100%';
+                const nombreSpan = document.createElement('div');
+                nombreSpan.className = 'info-media';
+                nombreSpan.innerText = ` ${item.file.name.substring(0, 25)}`; // Mostramos el nombre del archivo
+                const divBtns = document.createElement('div');
+                divBtns.className = 'card-buttons';
+                
+                const btnEdit = document.createElement('button');
+                btnEdit.innerText = ' Editar';
+                btnEdit.className = 'btn-mini editar-mini';
+                btnEdit.onclick = () => {
+                    const input = document.createElement('input');
+                    input.type = 'file';
+                    input.accept = 'audio/*';
+                    input.onchange = (e) => {
+                        if (e.target.files && e.target.files[0]) {
+                            const newFile = e.target.files[0];
+                            const newURL = URL.createObjectURL(newFile);
+                            URL.revokeObjectURL(audiosArray[idx].url);
+                            audiosArray[idx] = { file: newFile, url: newURL };
+                            renderAudios();
+                        }
+                    };
+                    input.click();
+                };
+                
+                const btnDelete = document.createElement('button');
+                btnDelete.innerText = ' Borrar';
+                btnDelete.className = 'btn-mini borrar-mini';
+                btnDelete.onclick = () => {
+                    URL.revokeObjectURL(audiosArray[idx].url);
+                    audiosArray.splice(idx, 1);
+                    renderAudios();
+                };
+                
+                divBtns.appendChild(btnEdit);
+                divBtns.appendChild(btnDelete);
+                card.appendChild(audio);
+                card.appendChild(nombreSpan);
+                card.appendChild(divBtns);
+                vistaAudiosDiv.appendChild(card);
+            });
+        }
+
+        // --- FUNCIONES PARA AGREGAR ARCHIVOS DESDE LOS INPUTS ---
+        function agregarImagenesDesdeInput(filesList) {
+            if (!filesList.length) return;
+            for (let file of filesList) {
+                if (file.type.startsWith('image/')) {
+                    const url = URL.createObjectURL(file);
+                    galleryImages.push({ file, url });
+                }
+            }
+            renderGalleryImages();
+        }
+
+        function agregarVideosDesdeInput(filesList) {
+            if (!filesList.length) return;
+            for (let file of filesList) {
+                if (file.type.startsWith('video/')) {
+                    const url = URL.createObjectURL(file);
+                    videosArray.push({ file, url });
+                }
+            }
+            renderVideos();
+        }
+
+        function agregarAudiosDesdeInput(filesList) {
+            if (!filesList.length) return;
+            for (let file of filesList) {
+                if (file.type.startsWith('audio/')) {
+                    const url = URL.createObjectURL(file);
+                    audiosArray.push({ file, url });
+                }
+            }
+            renderAudios();
+        }
+
+        // --- EVENTOS DE LOS INPUTS (cuando el usuario selecciona archivos) ---
+        inputFotoPerfil.addEventListener('change', (e) => {
+            if (e.target.files && e.target.files[0]) {
+                if (profileImageFile) {
+                    const oldUrl = vistaPerfil._currentURL;
+                    if (oldUrl) URL.revokeObjectURL(oldUrl);
+                }
+                profileImageFile = e.target.files[0];
+                actualizarVistaPerfil();
+            }
+        });
+
+        inputImagenPrincipal.addEventListener('change', (e) => {
+            if (e.target.files && e.target.files[0]) {
+                if (mainImageFile) URL.revokeObjectURL(URL.createObjectURL(mainImageFile));
+                mainImageFile = e.target.files[0];
+                actualizarImagenPrincipalPreview();
+            }
+        });
+
+        inputImagenes.addEventListener('change', (e) => {
+            if (e.target.files) {
+                agregarImagenesDesdeInput(Array.from(e.target.files));
+            }
+            inputImagenes.value = ''; // Limpiamos para que pueda subir los mismos archivos otra vez
+        });
+
+        inputVideos.addEventListener('change', (e) => {
+            if (e.target.files) {
+                agregarVideosDesdeInput(Array.from(e.target.files));
+            }
+            inputVideos.value = '';
+        });
+
+        inputAudios.addEventListener('change', (e) => {
+            if (e.target.files) {
+                agregarAudiosDesdeInput(Array.from(e.target.files));
+            }
+            inputAudios.value = '';
+        });
+
+        // --- BOTONES ESPECIALES PARA EDITAR Y BORRAR LA FOTO DE PERFIL ---
+        document.getElementById('editarPerfilBtn').addEventListener('click', () => {
+            inputFotoPerfil.click(); // Simula un clic en el input oculto
+        });
+        document.getElementById('borrarPerfilBtn').addEventListener('click', () => {
+            if (profileImageFile) {
+                if (vistaPerfil._currentURL) URL.revokeObjectURL(vistaPerfil._currentURL);
+                profileImageFile = null;
+                actualizarVistaPerfil();
+                inputFotoPerfil.value = ''; // Vaciamos el input
+            } else {
+                // Si no habia foto, solo ponemos la imagen por defecto
+                vistaPerfil.src = "{{ url_for('static', filename='img/NovamarketLogoDEFINITIVO.png') }}";
+            }
+        });
+
+        // --- LIMPIAR MEMORIA ANTES DE CERRAR LA PAGINA ---
+        window.addEventListener('beforeunload', () => {
+            // Liberamos todas las URLs temporales para evitar fugas de memoria
+            if (vistaPerfil._currentURL && vistaPerfil._currentURL !== "{{ url_for('static', filename='img/NovamarketLogoDEFINITIVO.png') }}") URL.revokeObjectURL(vistaPerfil._currentURL);
+            if (mainImageFile) URL.revokeObjectURL(URL.createObjectURL(mainImageFile));
+            revocarURLs(galleryImages);
+            revocarURLs(videosArray);
+            revocarURLs(audiosArray);
+        });
+
+        // --- INICIALIZAR LAS VISTAS (mostrar estado inicial vacio) ---
+        actualizarVistaPerfil();
+        actualizarImagenPrincipalPreview();
+        renderGalleryImages();
+        renderVideos();
+        renderAudios();
+    </script>
+</body>
+</html>

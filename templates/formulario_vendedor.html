@@ -1,0 +1,328 @@
+<!DOCTYPE html> <!--Indica que el documento utiliza HTML5-->
+<html lang="es"> <!--Es el inicio del documento e indica que el lenguaje es español-->
+
+<head> <!--Contenedor de informacion que no se muestra en la pagina-->
+    <meta charset="UTF-8"> <!--Es la codificacion de caracteres para aceptar letras, acentos y otros caracteres especiales-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!--Hace que la pagina se adapte a diferentes tamaños de pantalla-->
+    <title>Formulario Vendedor</title> <!--Titulo que aparece en la pestaña del navegador-->
+    <style>
+    
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+@keyframes luzMovil{
+    0%{
+        background-position:0% 0%;
+    }
+    50%{
+        background-position:100% 100%;
+    }
+    100%{
+        background-position:0% 0%;
+    }
+}
+
+body{
+    position:relative;
+
+    background:radial-gradient(
+        circle at center,
+        #bd122e 0%,
+        rgb(14,31,48) 70%
+    );
+
+    background-size:200% 200%;
+    animation:luzMovil 20s ease-in-out infinite;
+
+    color:white;
+    font-family:Arial, Helvetica, sans-serif;
+
+    min-height:100vh;
+}
+
+body::before{
+    content:"";
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:100%;
+    height:100%;
+
+    background-image:url("{{ url_for('static', filename='img/fondo_formularios.webp') }}");
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+
+    opacity:.45;
+
+    z-index:0;
+    pointer-events:none;
+}
+
+/* ==========================
+   CONTENEDOR PRINCIPAL
+========================== */
+
+.form-pantalla{
+    width:100%;
+    min-height:100vh;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    position:relative;
+    z-index:1;
+}
+
+.form-fondo{
+    position:absolute;
+    inset:0;
+
+    background:rgba(0,0,0,.35);
+}
+
+/* ==========================
+   TARJETA CRISTAL
+========================== */
+
+.form-card{
+    position:relative;
+    z-index:2;
+
+    width:650px;
+    max-width:95%;
+
+    padding:40px;
+
+    border-radius:30px;
+
+    background:rgba(255,255,255,.10);
+
+    backdrop-filter:blur(25px);
+    -webkit-backdrop-filter:blur(25px);
+
+    border:1px solid rgba(255,255,255,.15);
+
+    box-shadow:
+        0 8px 35px rgba(0,0,0,.45);
+
+    display:flex;
+    flex-direction:column;
+}
+
+.cliente-card{
+    background:rgba(255,255,255,.10);
+}
+
+/* ==========================
+   TITULO
+========================== */
+
+.form-card h1{
+    text-align:center;
+
+    color:white;
+
+    font-size:55px;
+    font-weight:900;
+
+    margin-bottom:30px;
+
+    text-shadow:
+        0 0 20px rgba(255,255,255,.15);
+}
+
+/* ==========================
+   FORMULARIO
+========================== */
+
+.form-card form{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+.form-card input,
+.form-card select{
+    width:100%;
+
+    height:60px;
+
+    border:none;
+
+    border-radius:18px;
+
+    padding:0 20px;
+
+    font-size:18px;
+
+    outline:none;
+
+    background:rgba(255,255,255,.95);
+
+    box-shadow:
+        0 4px 15px rgba(0,0,0,.15);
+}
+
+/* ==========================
+   DOBLE INPUT
+========================== */
+
+.direccion-doble{
+    display:flex;
+    gap:15px;
+}
+
+.direccion-doble input{
+    width:50%;
+}
+
+/* ==========================
+   BOTON
+========================== */
+
+.btn-cliente-enviar{
+    height:65px;
+
+    border:none;
+
+    border-radius:18px;
+
+    background:#19b54a;
+
+    color:white;
+
+    font-size:22px;
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.btn-cliente-enviar:hover{
+    transform:translateY(-3px);
+
+    box-shadow:
+        0 10px 25px rgba(25,181,74,.45);
+}
+
+/* ==========================
+   BOTON CERRAR
+========================== */
+
+.form-cerrar{
+    position:absolute;
+
+    right:20px;
+    top:15px;
+
+    color:white;
+
+    text-decoration:none;
+
+    font-size:32px;
+    font-weight:bold;
+
+    transition:.3s;
+}
+
+.form-cerrar:hover{
+    transform:scale(1.15);
+}
+
+/* ==========================
+   RESPONSIVE
+========================== */
+
+@media(max-width:768px){
+
+    .form-card{
+        width:95%;
+        padding:25px;
+    }
+
+    .form-card h1{
+        font-size:40px;
+    }
+
+    .direccion-doble{
+        flex-direction:column;
+    }
+
+    .direccion-doble input{
+        width:100%;
+    }
+}
+ </style>
+</head> <!--Cierra el contenedor de informacion-->
+
+<body> <!--Contenedor principal del cuerpo de la pagina-->
+    <div class="form-pantalla"> <!--Contenedor principal y usa la clase form_pantalla para luego usar CSS-->
+    <div class="form-fondo"></div> <!--Crea una capa que sirve como un fondo oscuro encima de la imagen para que se vea mejor-->
+    <div class="form-card vendedor-card"> <!--Contenedor de la tarjeta del formulario para vendedores-->
+
+    <a href="/acceso" class="form-cerrar"> <!--Crea un enlace para regresar a la pagina principal-->
+        ✕ <!--Es un simbolo de cerrar que funciona como botón-->
+    </a> <!--Cierra el enlace-->
+
+    <h1> <!--Abre el contenedor del Título principal-->
+        Vendedor <!--Texto del título-->
+    </h1> <!--Cierra el contenedor del Título principal-->
+
+    <form action="{{ url_for('formulario_vendedor') }}" method="POST" enctype="multipart/form-data"> <!--Abre el contenedor del formulario-->
+        <input type="text" name="usuario" placeholder="NOMBRE:"> <!--Campo de texto para el nombre-->
+        <input type="email" name="email" placeholder="CORREO ELECTRONICO:"> <!--Campo de correo electrónico-->
+        <input type="password" name="password" placeholder="CONTRASEÑA:"> <!--Campo de contraseña-->
+        <input type="tel" name="telefono" placeholder="TELEFONO:"> <!--Campo de teléfono-->
+        <select name="sexo" required>
+            <option value="" selected disabled>
+                SEXO
+            </option>
+            <option value="Masculino">
+                Masculino
+            </option>
+            <option value="Femenino">
+                Femenino
+            </option>
+            <option value="Otro">
+                Otro
+            </option>
+        </select>
+        <input type="text" name="cp" placeholder="CÓDIGO POSTAL:"> <!-- Campo de texto para el código postal-->
+        <input type="text" name="calle" placeholder="CALLE:"> <!-- Campo de texto para la calle-->
+
+        <div class="direccion-doble"> <!--  Contenedor para los campos de número exterior e interior y usa la clase direccion-doble para luego usar CSS-->
+            <input type="text" name="num_ext" placeholder="NUMERO EXTERIOR:"> <!-- Campo de texto para el número exterior-->
+            <input type="text" name="num_int" placeholder="NUMERO INTERIOR:"> <!-- Campo de texto para el número interior-->
+        </div> <!-- Cierra el contenedor para los campos de número exterior e interior--> 
+
+        <div class="comprobante"> <!--Contenedor para el comprobante-->
+
+        <label> <!--Etiqueta para el campo de archivo-->
+            SUBIR COMPROBANTE <!--Texto de la etiqueta-->
+        </label> <!--Cierra la etiqueta-->
+
+        <input type="file" name="comprobante" required> <!--Campo de archivo-->
+
+        </div> <!--Cierra el contenedor para el comprobante-->
+
+        <button type="submit" class="btn-vendedor-enviar">
+            ENVIAR SOLICITUD
+        </button> <!--Cierra el botón-->
+
+    </form> <!--Cierra el contenedor del formulario-->
+
+    </div> <!--Cierra el contenedor de la tarjeta del formulario-->
+
+    </div> <!--Cierra el contenedor principal-->
+
+</body> <!--Cierra el contenedor principal del cuerpo de la pagina-->
+</html> <!--Cierra el documento HTML-->

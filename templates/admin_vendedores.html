@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Solicitudes de vendedores</title>
+</head>
+
+<body>
+
+<h1>Solicitudes Pendientes</h1>
+
+{% for vendedor in vendedores %}
+
+<hr>
+
+<h3>{{ vendedor.usuario }}</h3>
+
+<p>Correo: {{ vendedor.email }}</p>
+
+<p>Teléfono: {{ vendedor.telefono }}</p>
+
+<p>Estado: {{ vendedor.estado }}</p>
+
+{% if vendedor.comprobante %}
+
+<a href="{{ url_for('static',
+filename='comprobantes/' + vendedor.comprobante) }}"
+target="_blank">
+
+Ver comprobante
+
+</a>
+
+<br><br>
+
+{% endif %}
+
+<form action="{{ url_for('aprobar_vendedor', id=vendedor.id) }}"
+      method="POST">
+
+    <button type="submit">
+
+        Aprobar vendedor
+
+    </button>
+
+</form>
+
+{% endfor %}
+
+</body>
+</html>

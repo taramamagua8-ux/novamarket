@@ -1,0 +1,79 @@
+
+<!-- Utilizamso el comando html 5 para crear una estructura basica html --> 
+<!DOCTYPE html>
+<html lang="es"> <!-- Comienza la página web y define que el idioma es español (es) -->
+
+<!-- "head" contiene información invisible para el usuario, pero vital para el navegador y buscadores -->
+<head>
+    <link rel="icon"
+      type="image/png"
+      href="{{ url_for('static', filename='img/NovamarketLogoDEFINITIVO.png') }}">
+    <!-- Define la pequeña imagen (icono) que aparece en la pestaña de arriba en tu navegador web -->
+    <meta charset="UTF-8">
+    <!-- (Viene con html5)Configura caracteres a UTF-8 para que la página muestre tildes, eñes y simbolos -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <!-- (Viene con html5)Configuración para que la página web se adapte correctamente a las pantallas -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style2.css') }}">
+    <!-- Conecta este archivo HTML con nuestros estilos Style.css -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+     <!-- Conexión con los servidores de Google Fonts para asegurar que cargen en todos los dispositivos -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Conexión previa de seguridad para permitir la descarga de fuentes desde otro servidor de manera segura -->
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+     <!-- Descarga el estilo de letra "Anton" desde Google Fonts para usarlo en el diseño -->
+
+    <title>Bienvenido</title><!-- Define el título de la pestaña del navegador-->
+</head>
+
+<!-- El bloque "body" contiene todo lo que el usuario final sí podrá ver en su pantalla al entrar a la web -->
+<body>    
+    <!-- Contenedor genérico (caja invisible) que se usa para agrupar y organizar elementos -->
+    <div>
+         <!-- El título principal.El "<br>" sirve para hacer un salto de línea (enter) -->
+        <h1 class="texto-principal">Bienvenido a <br> Novarket</h1>
+    </div>
+    
+     <!-- Contenedor para Texto superuior a la derecha "presentado-por" y sus imagenes -->
+    <div class="presentado-por">
+         <!-- Muestra el logo Conecta Mercado 360 en la misma linea del presentado por, pero hasta la izquierda -->
+          <img src="{{ url_for('static', filename='img/CM360logo.webp') }}" class="logo-izquierda">
+         <!-- Texto normal suelto dentro de una etiqueta que ayuda a aplicar estilos de diseño específicos a esa frase -->  
+        <span>Presentado por</span>
+        <!-- Muestra el logo Nova hasta la derecha  -->
+        <img src="{{ url_for('static', filename='img/novalogoBLANCO.webp') }}" alt="Logo">
+    </div>
+
+
+      <!-- El model viewer es el componente interactivo  que permite incrustar, ver y rotar un objeto 3D (.glb)  -->
+
+    <!--Escribimos su descripcion por bloque ya que no permite por linea :( )
+
+        camera-controls - Permite que el usuario pueda mover la cámara del objeto
+        auto-rotate - Hace que el objeto 3D gire por sí solo de forma automática 
+        disable-zoom - Desactiva la opción de acercar o alejar el objeto para que no se vea nuestro contendeor 
+        interaction-prompt="none" - Evita que aparezcan manos flotantes o guías indicándole al usuario cómo mover el 3D
+        rotation-per-second="30deg"> - Define la velocidad de giro automático por segundo (30 grados) -->
+    
+    <model-viewer
+        src="{{ url_for('static', filename='img/LogoNovarket5.glb') }}"
+        camera-controls
+        auto-rotate
+        disable-zoom
+        interaction-prompt="none"
+        rotation-per-second="30deg">
+    </model-viewer>
+
+    <!-- Botón para ir a otra página web con su respectiuva clase-->
+    <a href="{{ url_for('acceso') }}" class="boton-entrar"> Entrar</a>
+
+    <div>
+        <!-- La continuacion de la frase del inicio a la derecha con un h2 -->
+        <h2 class="texto-principal">Tu mercado a <br> un solo click!</h2>
+    </div>
+
+    <!-- Carga una herramienta externa desde internet para que el navegador entienda y pueda ejecutar el visor 3D  -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.2.0/model-viewer.min.js"></script>
+
+</body>
+
+</html>

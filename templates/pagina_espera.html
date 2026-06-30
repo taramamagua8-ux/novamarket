@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="es"> <!-- Comienza la página web y define que el idioma es español (es) -->
+
+<!-- "head" contiene información invisible para el usuario, pero vital para el navegador y buscadores -->
+<head>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/NovamarketLogoDEFINITIVO.png') }}">
+    <!-- Define la pequeña imagen (icono) que aparece en la pestaña de arriba en tu navegador web -->
+    <meta charset="UTF-8">
+    <!-- (Viene con html5)Configura caracteres a UTF-8 para que la página muestre tildes, eñes y simbolos -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <!-- (Viene con html5)Configuración para que la página web se adapte correctamente a las pantallas -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+     <!-- Conexión con los servidores de Google Fonts para asegurar que cargen en todos los dispositivos -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Conexión previa de seguridad para permitir la descarga de fuentes desde otro servidor de manera segura -->
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+     <!-- Descarga el estilo de letra "Anton" desde Google Fonts para usarlo en el diseño -->
+
+    <title>Bienvenido</title><!-- Define el título de la pestaña del navegador-->
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+@keyframes luzMovil {
+    0%   { background-position: 0% 0%; }
+    50%  { background-position: 100% 100%; }
+    100% { background-position: 0% 0%; }
+}
+
+body{
+    min-height:100vh;
+
+    background:
+    radial-gradient(
+        circle at center,
+        #bd122e 0%,
+        rgb(14,31,48) 70%
+    );
+
+    background-size:200% 200%;
+    animation:luzMovil 20s ease-in-out infinite;
+
+    overflow:hidden;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+
+    color:white;
+}
+
+/* TEXTO PRINCIPAL */
+
+.texto-principal{
+    position:absolute;
+
+    left:7%;
+    top:50%;
+
+    transform:translateY(-50%);
+
+    font-size:2rem;
+
+    font-weight:800;
+
+    line-height:1.15;
+
+    max-width:350px;
+
+    text-shadow:
+    0 0 15px rgba(255,255,255,.15);
+
+    z-index:10;
+}
+
+/* PRESENTADO POR */
+
+.presentado-por{
+
+    position:absolute;
+
+    top:30px;
+    right:40px;
+
+    display:flex;
+    align-items:center;
+    gap:15px;
+
+    font-size:18px;
+    font-weight:600;
+}
+
+.presentado-por img{
+    height:55px;
+    object-fit:contain;
+}
+
+.logo-izquierda{
+    height:70px !important;
+}
+
+/* MODELO 3D */
+
+model-viewer{
+
+    width:500px;
+    height:500px;
+
+    background:transparent;
+
+    --poster-color:transparent;
+
+    filter:
+    drop-shadow(
+        0 0 40px rgba(255,255,255,.2)
+    );
+}
+
+/* BOTON */
+
+.form-cerrar{
+
+    position:absolute;
+
+    bottom:50px;
+
+    text-decoration:none;
+
+    color:white;
+
+    font-size:22px;
+    font-weight:700;
+
+    padding:16px 55px;
+
+    border-radius:18px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #ff3c6f,
+        #bd122e
+    );
+
+    box-shadow:
+    0 10px 30px rgba(189,18,46,.45);
+
+    transition:.3s;
+}
+
+.form-cerrar:hover{
+
+    transform:
+    translateY(-4px)
+    scale(1.03);
+
+    box-shadow:
+    0 15px 40px rgba(189,18,46,.65);
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1200px){
+
+    .texto-principal{
+        position:relative;
+        left:auto;
+        top:auto;
+        transform:none;
+        text-align:center;
+        font-size:3rem;
+        margin-top:30px;
+    }
+
+    model-viewer{
+        width:450px;
+        height:450px;
+    }
+
+    .presentado-por{
+        position:relative;
+        top:auto;
+        right:auto;
+        margin-top:20px;
+    }
+}
+
+</style>
+
+</head>
+<body>
+     <!-- Contenedor genérico (caja invisible) que se usa para agrupar y organizar elementos -->
+    <div>
+         <!-- El título principal.El "<br>" sirve para hacer un salto de línea (enter) -->
+         <h1 class="texto-principal" style="text-align: left;">!Espera hasta que los administradores acepten tu soliciutd!  </h1>
+    </div>
+
+    <!-- Contenedor para Texto superuior a la derecha "presentado-por" y sus imagenes -->
+    <div class="presentado-por">
+         <!-- Muestra el logo Conecta Mercado 360 en la misma linea del presentado por, pero hasta la izquierda -->
+        <img src="{{ url_for('static', filename='img/CM360logo.webp') }}"
+     class="logo-izquierda">
+         <!-- Texto normal suelto dentro de una etiqueta que ayuda a aplicar estilos de diseño específicos a esa frase -->  
+        <span>Presentado por</span>
+        <!-- Muestra el logo Nova hasta la derecha  -->
+        <img src="{{ url_for('static', filename='img/novalogoBLANCO.webp') }}"
+     alt="Logo">
+    </div>
+
+
+     <!-- El model viewer es el componente interactivo  que permite incrustar, ver y rotar un objeto 3D (.glb)  -->
+
+    <!--Escribimos su descripcion por bloque ya que no permite por linea :( )
+
+        camera-controls - Permite que el usuario pueda mover la cámara del objeto
+        auto-rotate - Hace que el objeto 3D gire por sí solo de forma automática 
+        disable-zoom - Desactiva la opción de acercar o alejar el objeto para que no se vea nuestro contendeor 
+        interaction-prompt="none" - Evita que aparezcan manos flotantes o guías indicándole al usuario cómo mover el 3D
+        rotation-per-second="30deg"> - Define la velocidad de giro automático por segundo (30 grados) -->
+    
+    <model-viewer
+        src="{{ url_for('static', filename='img/LogoNovarket5.glb') }}"    
+        camera-controls
+        auto-rotate
+        disable-zoom
+        interaction-prompt="none"
+        rotation-per-second="30deg">
+    </model-viewer>  
+    
+    
+    <!-- Botón para regresar con su respectiuva clase-->
+    <a href="{{ url_for('acceso') }}" class="form-cerrar">
+        Volver
+    </a>
+    
+    <!-- Carga una herramienta externa desde internet para que el navegador entienda y pueda ejecutar el visor 3D  -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.2.0/model-viewer.min.js"></script>
+
+
+
+
+</body>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ local.nombre_local }} · NovaMarket</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/NovamarketLogoDEFINITIVO.png') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background:linear-gradient(135deg,#c31432 0%,#240b36 100%);min-height:100vh;padding:30px 20px}
+        .card-local{max-width:950px;margin:0 auto;background:rgba(255,255,255,.96);border-radius:48px;overflow:hidden;box-shadow:0 25px 40px -12px rgba(0,0,0,.35)}
+        .contenido-local{padding:40px}
+        .foto-perfil{width:180px;height:180px;border-radius:50%;object-fit:cover;background:#f2f4f8;margin-bottom:25px}
+        .nombre-local{font-size:2.5rem;font-weight:800;color:#1a1a2e;margin-bottom:12px}
+        .badge-tipo{background:#f39c12;display:inline-block;padding:6px 20px;border-radius:60px;font-weight:700;color:#1e2a3e;margin-bottom:25px}
+        .datos-completos{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin:20px 0}
+        .dato-item{background:#f8fafc;padding:14px 22px;border-radius:50px;display:flex;gap:8px;flex-wrap:wrap}
+        .etiqueta{font-weight:800;color:#2c3e50}.valor{font-weight:500;color:#1e293b;word-break:break-word}
+        .seccion-productos{padding:30px 40px 45px;background:#fff;border-top:1px solid #edecf0}
+        .titulo-productos{font-size:1.8rem;font-weight:700;margin-bottom:25px;border-left:5px solid #c31432;padding-left:18px;color:#1a1a2e}
+        .productos{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+        .producto{background:#f8fafc;border:1px solid #e2e8f0;border-radius:24px;padding:22px;box-shadow:0 6px 14px rgba(0,0,0,.05)}
+        .producto h3{color:#1a1a2e;margin-bottom:12px}.producto p{color:#475569;margin:6px 0}
+        .precio{font-size:1.6rem;font-weight:800;color:#15803d;margin-top:12px}.btn-producto{display:inline-block;margin-top:14px;background:#c31432;color:#fff;text-decoration:none;border-radius:999px;padding:10px 18px;font-weight:700}
+        .vacio{background:#f1f5f9;border-radius:30px;padding:35px;text-align:center;color:#475569}
+        .volver{text-align:center;margin:28px auto}.btn-volver{display:inline-block;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.3);padding:12px 32px;border-radius:60px;color:white;text-decoration:none;font-weight:600}
+        footer{text-align:center;margin-top:30px;color:rgba(255,255,255,.7);font-size:.8rem}
+        @media(max-width:700px){.contenido-local,.seccion-productos{padding:25px}.nombre-local{font-size:1.8rem}.foto-perfil{width:140px;height:140px}}
+    </style>
+</head>
+<body>
+    <div class="card-local">
+        <div class="contenido-local">
+            <img class="foto-perfil" src="{{ url_for('static', filename=local.imagen) }}" alt="{{ local.nombre_local }}">
+            <div class="nombre-local">{{ local.nombre_local or ('Local ' ~ local.num_local) }}</div>
+            <div class="badge-tipo">{{ local.tipo_producto or local.tipo_local or 'Productos variados' }}</div>
+            <div class="datos-completos">
+                <div class="dato-item"><span class="etiqueta">Número:</span><span class="valor">{{ local.num_local }}</span></div>
+                <div class="dato-item"><span class="etiqueta">Horario:</span><span class="valor">{{ local.horario or 'No disponible' }}</span></div>
+                <div class="dato-item"><span class="etiqueta">Encargado:</span><span class="valor">{{ local.encargado or 'No disponible' }}</span></div>
+                <div class="dato-item"><span class="etiqueta">Teléfono:</span><span class="valor">{{ local.Telefono or 'No disponible' }}</span></div>
+            </div>
+        </div>
+        <section class="seccion-productos">
+            <h2 class="titulo-productos">Productos del local</h2>
+            {% if productos %}
+            <div class="productos">
+                {% for producto in productos %}
+                <article class="producto">
+                    <h3>{{ producto.Marca }}</h3>
+                    <p>Peso: {{ producto.Peso or 'No especificado' }}</p>
+                    <p>Tamaño: {{ producto['Tamaño'] or 'No especificado' }}</p>
+                    <div class="precio">${{ '%.2f'|format(producto.precio) }}</div>
+                    <a class="btn-producto" href="{{ url_for('producto', id_producto=producto.id_producto) }}">Ver / comprar</a>
+                </article>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="vacio">Este local todavía no tiene productos publicados.</div>
+            {% endif %}
+        </section>
+    </div>
+    <div class="volver"><a href="{{ url_for('volver_menu') }}" class="btn-volver">← Volver al menú</a></div>
+    <footer>NovaMarket · Apoya el comercio local</footer>
+</body>
+</html>

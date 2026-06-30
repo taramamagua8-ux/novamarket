@@ -1,0 +1,171 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@keyframes luzMovil {
+    0%   { background-position: 0% 0%; }
+    50%  { background-position: 100% 100%; }
+    100% { background-position: 0% 0%; }
+}
+
+body {
+    /* Un círculo de luz roja que se difumina hacia el azul oscuro oscuro */
+    background: radial-gradient(circle at center, #bd122e 0%, rgb(14, 31, 48) 70%);
+    background-size: 200% 200%; /* Agrandamos el radio para poder moverlo */
+    animation: luzMovil 20s ease-in-out infinite;
+    color: white;
+    font-family: 'Arial', sans-serif;
+} 
+
+
+
+/* 
+
+@keyframes moverFondo {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+body {
+
+    background: linear-gradient(45deg, #bd122e, rgb(129, 7, 25), rgb(14, 31, 48), #60acca);
+    background-size: 400% 400%;
+    animation: moverFondo 15s ease infinite;
+    color: white;
+    font-family: 'Arial', sans-serif;
+}
+
+
+  */
+
+
+
+
+
+
+
+
+
+.navbar-contenedor {
+    width: 100%;             
+    position: relative;
+}
+
+.navbar-imagen {
+    width: 100%;             
+    height: auto;            
+    display: block;          
+}
+
+
+.contenedor-3d {
+    position: absolute;       
+    left: 20px;               
+    top: -340px;                
+    width: 1000px;             
+    height: 1000px;            
+    display: flex;
+    align-items: center;
+    justify-content: leFT;
+    background: transparent;  
+    z-index: 999;
+}
+
+model-viewer.objeto-3d {  
+    width: 400px;
+    height: 300px;
+    background-color: transparent; 
+    --poster-color: transparent;
+}
+.carrusel-contenedor {
+    position: relative;   /* ← agrega esto, para que los botones se anclen aquí */
+    width: 820px;
+    height: 290px;        /* ← faltaba la p */
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.carrusel-imagen {
+    min-width: 820px;     /* ← mismo valor que el contenedor, no 500px */
+    height: 290px;        /* ← mismo valor que el contenedor */
+    object-fit: cortain;
+}
+
+.carrusel-pista {
+    display: flex;           /* ← pone todas las imágenes en fila */
+    transition: transform 0.5s ease;  /* ← hace el movimiento suave */
+}
+
+
+.carrusel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.carrusel-btn.izquierda { left: 10px; }
+.carrusel-btn.derecha { right: 10px; }
+
+.carrusel-btn:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.pagina-contenido {
+    position: absolute;
+    top: 120px;        /* ← ajusta este número hasta que quede donde quieres */
+    right: 60px;       /* ← pegado a la derecha */
+    z-index: 10;
+}
+
+/* ========================= */
+/* BOTONES DEL MENÚ          */
+/* ========================= */
+
+.menu-opciones{
+    position: absolute;
+    top: 20px;
+    left: 62%;
+    transform: translateX(-50%);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px; /* cambia este valor */
+
+    z-index: 1000;
+}
+
+.opcion-menu{
+    text-decoration: none;
+    color: white;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+
+    transition: transform 0.3s ease;
+}
+
+.opcion-menu i{
+    font-size: 32px;
+    margin-bottom: 6px;
+}
+
+.opcion-menu:hover{
+    transform: scale(1.1);
+}

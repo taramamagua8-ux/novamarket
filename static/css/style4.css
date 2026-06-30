@@ -1,0 +1,427 @@
+/* ══════════════════════════════════════════════
+   RESET GENERAL
+   Borra los márgenes y rellenos que los
+   navegadores ponen por defecto en todo.
+══════════════════════════════════════════════ */
+
+* {
+    margin: 0;       /* Sin margen exterior en ningún elemento */
+    padding: 0;      /* Sin relleno interior en ningún elemento */
+    box-sizing: border-box; /* El borde y padding se cuentan DENTRO del ancho, no fuera */
+}
+
+
+
+
+/* ══════════════════════════════════════════════
+   FONDO ANIMADO DEL CUERPO
+   Un círculo de luz roja en el centro que
+   se mueve lentamente hacia las esquinas.
+══════════════════════════════════════════════ */
+
+/* Define el movimiento del fondo:
+   empieza arriba-izquierda, va a abajo-derecha, regresa */
+@keyframes luzMovil {
+    0%   { background-position: 0% 0%; }
+    50%  { background-position: 100% 100%; }
+    100% { background-position: 0% 0%; }
+}
+
+body {
+    /* Gradiente circular: rojo en el centro, azul oscuro en los bordes */
+    background: radial-gradient(circle at center, #bd122e 0%, rgb(14, 31, 48) 70%);
+
+    /* El fondo es el doble de grande para que se pueda mover */
+    background-size: 200% 200%;
+
+    /* Activa la animación: dura 20 segundos, suave, se repite para siempre */
+    animation: luzMovil 20s ease-in-out infinite;
+
+    /* Texto blanco para que se vea sobre el fondo oscuro */
+    color: white;
+
+    /* Tipo de letra de toda la página */
+    font-family: 'Arial', sans-serif;
+}
+
+
+
+
+/* ══════════════════════════════════════════════
+   NAVBAR — BARRA DE NAVEGACIÓN SUPERIOR
+   Contiene la imagen de fondo de la barra,
+   el logo 3D y el carrusel de anuncios.
+══════════════════════════════════════════════ */
+
+.navbar-contenedor {
+    width: 100%;        /* Ocupa todo el ancho de la pantalla */
+    position: relative; /* Necesario para que el logo 3D y el carrusel
+                           se puedan posicionar encima con "absolute" */
+}
+
+/* La imagen PNG que forma la barra de navegación */
+.navbar-imagen {
+    width: 100%;   /* Se estira al ancho completo */
+    height: auto;  /* La altura se ajusta proporcionalmente */
+    display: block; /* Elimina el pequeño espacio blanco que dejan las imágenes inline */
+}
+
+
+
+
+/* ══════════════════════════════════════════════
+   LOGO 3D
+   El objeto giratorio que flota sobre la navbar.
+   Está posicionado de forma absoluta para
+   sobreponerse encima de la imagen de fondo.
+══════════════════════════════════════════════ */
+
+.contenedor-3d {
+    position: absolute; /* Se posiciona relativo al navbar-contenedor */
+    left: 20px;         /* A 20px del borde izquierdo */
+    top: -340px;        /* Sube 340px para flotar sobre la navbar
+                           (ajusta este número si el logo queda muy arriba o abajo) */
+    width: 1000px;
+    height: 1000px;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    background: transparent; /* Sin fondo, para que se vea el navbar detrás */
+    z-index: 999;            /* Encima de todo lo demás */
+}
+
+/* El visor del modelo 3D en sí */
+model-viewer.objeto-3d {
+    width: 400px;
+    height: 300px;
+    background-color: transparent;  /* Sin fondo propio */
+    --poster-color: transparent;    /* Sin color de carga */
+}
+
+
+
+
+/* ══════════════════════════════════════════════
+   CARRUSEL DE ANUNCIOS
+   Las imágenes que pasan con las flechas.
+   Está posicionado sobre la navbar a la derecha.
+══════════════════════════════════════════════ */
+
+/* El marco que recorta el carrusel (las imágenes no se salen) */
+.carrusel-contenedor {
+    position: relative; /* Para que las flechas se anclen aquí dentro */
+    width: 820px;       /* Ancho fijo del carrusel */
+    height: 290px;      /* Alto fijo del carrusel */
+    overflow: hidden;   /* Oculta las imágenes que están fuera de vista */
+    border-radius: 8px; /* Esquinas ligeramente redondeadas */
+}
+
+
+.video-promocional{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    border-radius:8px;
+}
+
+.carrusel-contenedor {
+    position: relative;
+    width: 820px;
+    height: 350px;
+    overflow: hidden;
+    border-radius: 15px;
+}
+
+/* Posición del carrusel dentro del navbar */
+.pagina-contenido {
+    position: absolute;
+    top: 145px;   /* Distancia desde arriba del navbar
+                     (sube o baja este número para ajustar) */
+    right: 60px;  /* Pegado al borde derecho con 60px de margen */
+    z-index: 10;  /* Encima de la imagen del navbar */
+}
+
+/* ══════════════════════════════════════════════
+   TÍTULO ARRIBA DE LAS TARJETAS
+   Texto con fuente Anton, alineado a la derecha
+══════════════════════════════════════════════ */
+
+.titulo-tiendas {
+    font-family: 'Anton', sans-serif; /* Fuente Anton de Google Fonts */
+    font-size: 38px;                  /* Tamaño del texto — sube o baja a tu gusto */
+
+     background: linear-gradient(
+        90deg,
+        #e7e8f3 0%,    /* Rojo al inicio */
+        #afabdd 30%,   /* Sigue rojo */
+        #a9f5f5 50%,   /* Destello blanco en el centro */
+        #ffffff 70%,   /* Vuelve a rojo */
+        #ffffff 100%   /* Rojo al final */
+    );
+
+    /* El gradiente es el doble de ancho para que al moverse
+       el destello viaje de derecha a izquierda */
+    background-size: 200% auto;
+
+    /* Aplica el gradiente SOLO al texto (no al fondo del span) */
+    -webkit-background-clip: text;  /* Chrome / Safari */
+    -webkit-text-fill-color: transparent; /* Hace el texto transparente para ver el gradiente */
+    background-clip: text;          /* Firefox */
+
+    /* Activa la animación de movimiento del destello */
+    animation: brilloTexto 6s linear infinite;
+    padding: 10px 60px 15px 40px;       /* Espacio: arriba | derecha | abajo | izquierda */
+                                      /* El 40px derecho lo aleja del borde */
+    letter-spacing: 3px;              /* Separación entre letras — Anton se ve bien espaciada */
+    text-transform: uppercase;        /* Convierte el texto a MAYÚSCULAS automáticamente */
+
+
+    @keyframes brilloTexto {
+    0%   { background-position: 200% center; }  /* Destello empieza a la derecha */
+    100% { background-position: -200% center; } /* Destello termina a la izquierda */
+}
+
+}
+
+
+
+/* ══════════════════════════════════════════════
+   SECCIÓN DE TARJETAS DE TIENDAS
+   El área debajo del navbar donde aparecen
+   los botones/tarjetas de cada local.
+══════════════════════════════════════════════ */
+
+.seccion-tiendas {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+
+}
+
+
+
+/* ══════════════════════════════════════════════
+   TARJETA INDIVIDUAL
+   Cada cuadro con foto y nombre de un local.
+══════════════════════════════════════════════ */
+
+.btn-tienda {
+    /* Ancho: exactamente un tercio de la fila, descontando el espacio entre tarjetas.
+       Esto garantiza que quepan 3 por fila. */
+    width: calc(33.333% - 20px);
+
+    max-width: 400px; /* No crece más de 400px aunque la pantalla sea muy grande */
+    min-width: 250px; /* No se encoge más de 250px aunque la pantalla sea pequeña */
+
+    border-radius: 20px; /* Esquinas muy redondeadas */
+    overflow: hidden;    /* La imagen no se sale de las esquinas redondeadas */
+    cursor: pointer;     /* Muestra la manita al pasar el mouse */
+
+    /* Borde inicial: blanco muy transparente (casi invisible) */
+    border: 3px solid rgba(255, 255, 255, 0.2);
+
+    /* Animación del borde al hacer hover (solo el borde cambia, no la tarjeta) */
+    transition: border-color 0.3s;
+
+    background: rgba(0, 0, 0, 0.3); /* Fondo negro semitransparente */
+    text-decoration: none;           /* Quita el subrayado del enlace <a> */
+    display: block;                  /* El <a> se comporta como bloque, no como texto */
+}
+
+/* ── Efecto al pasar el mouse ─────────────────
+   SOLO el borde se ilumina.
+   La tarjeta NO se agranda ni se mueve.
+─────────────────────────────────────────────── */
+.btn-tienda:hover {
+    border-color: rgba(255, 255, 255, 0.7); /* El borde se vuelve más visible */
+    /* NO hay transform: scale aquí → la tarjeta no crece */
+}
+
+
+
+
+/* ══════════════════════════════════════════════
+   IMAGEN DENTRO DE LA TARJETA
+══════════════════════════════════════════════ */
+
+.btn-tienda img {
+    width: 100%;        /* La imagen ocupa todo el ancho de la tarjeta */
+    height: 260px;      /* Altura fija: todas las imágenes tienen el mismo alto
+                           (sube este número para imágenes más grandes) */
+    object-fit: cover;  /* Recorta la imagen para que llene el espacio sin deformarse */
+    display: block;     /* Elimina el espacio blanco debajo de la imagen */
+}
+
+
+
+
+/* ══════════════════════════════════════════════
+   NOMBRE DE LA TIENDA (TEXTO CON BRILLO)
+   El texto en la parte inferior de cada tarjeta.
+   Tiene una animación de destello que pasa de
+   izquierda a derecha continuamente.
+══════════════════════════════════════════════ */
+.cerrar-sesion{
+    background:rgba(255,0,0,.15);
+    border:1px solid rgba(255,0,0,.4);
+    transition:.3s;
+}
+
+.cerrar-sesion:hover{
+    background:rgba(255,0,0,.3);
+    transform:translateY(-3px);
+    box-shadow:0 0 20px rgba(255,0,0,.4);
+}
+
+.cerrar-sesion i{
+    color:#ff5b5b;
+}
+
+.btn-tienda-nombre {
+    display: block;       /* Ocupa toda la línea */
+    text-align: center;   /* Texto centrado */
+    padding: 12px 10px;   /* Espacio interior: 14px arriba/abajo, 10px a los lados */
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 1px;  /* Pequeño espacio entre letras */
+    font-family: 'Arial Black', sans-serif;
+
+    /* El gradiente crea el efecto de brillo:
+       rojo → rojo → blanco (destello) → rojo → rojo */
+    background: linear-gradient(
+        90deg,
+        #ff2255 0%,    /* Rojo al inicio */
+        #ff2255 30%,   /* Sigue rojo */
+        #ffffff 50%,   /* Destello blanco en el centro */
+        #ff2255 70%,   /* Vuelve a rojo */
+        #ff2255 100%   /* Rojo al final */
+    );
+
+    /* El gradiente es el doble de ancho para que al moverse
+       el destello viaje de derecha a izquierda */
+    background-size: 200% auto;
+
+    /* Aplica el gradiente SOLO al texto (no al fondo del span) */
+    -webkit-background-clip: text;  /* Chrome / Safari */
+    -webkit-text-fill-color: transparent; /* Hace el texto transparente para ver el gradiente */
+    background-clip: text;          /* Firefox */
+
+    /* Activa la animación de movimiento del destello */
+    animation: brilloTexto 3s linear infinite;
+}
+
+/* Define el movimiento del destello:
+   empieza a la derecha, viaja hacia la izquierda */
+@keyframes brilloTexto {
+    0%   { background-position: 200% center; }  /* Destello empieza a la derecha */
+    100% { background-position: -200% center; } /* Destello termina a la izquierda */
+}
+
+
+
+/* ══════════════════════════════════════════════
+   PIE DE PÁGINA
+   Barra al fondo con logos a los lados
+   y mensaje central con degradado de color
+══════════════════════════════════════════════ */
+
+.pie-pagina {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 30px 50px;
+
+    /* BORRA O QUITA ESTAS 4 LÍNEAS si las tienes: */
+    /* position: fixed; */
+    /* bottom: 0;       */
+    /* left: 0;         */
+    /* width: 100%;     */
+    /* z-index: 1000;   */
+
+    /* AGREGA SOLO ESTA para que ocupe todo el ancho */
+    width: 100%;
+
+    background: linear-gradient(
+        90deg,
+        #4e0202 0%,
+        #801627 50%,
+        #05304f 100%
+    );
+    border-top: 2px solid rgba(255, 255, 255, 0.15);
+}
+
+/* ── LOGOS A LOS LADOS ─────────────────────── */
+
+.pie-logo {
+    height: 70px;        /* Altura de los logos — sube para hacerlos más grandes */
+    width: auto;         /* El ancho se ajusta proporcionalmente */
+    object-fit: contain; /* No deforma el logo */
+    opacity: 0.9;        /* Ligeramente transparentes para verse elegantes */
+}
+
+
+/* ── MENSAJE CENTRAL CON DEGRADADO ────────── */
+
+.pie-mensaje {
+    font-family: 'Anton', sans-serif; /* Misma fuente Anton que el título */
+    font-size: 25px;                  /* Tamaño grande — ajusta a tu gusto */
+    letter-spacing: 4px;              /* Espaciado entre letras */
+    text-align: center;
+    text-transform: uppercase;
+
+    /* Degradado del texto: blanco → amarillo → blanco */
+    background: white;
+    background-size: 200% auto;
+
+    /* Aplica el degradado solo al texto */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+
+    /* Animación de brillo igual que los nombres de las tarjetas */
+    animation: brilloTexto 4s linear infinite;
+}
+
+/* ========================= */
+    /* BOTONES DEL MENÚ */
+/* ========================= */
+
+.menu-opciones{
+    position: absolute;
+    top: 20px;
+    left: 62%;
+    transform: translateX(-50%);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px; /* cambia este valor */
+
+    z-index: 1000;
+}
+
+.opcion-menu{
+    text-decoration: none;
+    color: white;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+
+    transition: transform 0.3s ease;
+}
+
+.opcion-menu i{
+    font-size: 32px;
+    margin-bottom: 6px;
+}
+
+.opcion-menu:hover{
+    transform: scale(1.1);
+}

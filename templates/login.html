@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<!-- Esta linea indica que estamos usando HTML5, la version mas moderna de HTML -->
+<html lang="es">
+<!-- El atributo lang="es" le dice al navegador que el contenido principal esta en español -->
+
+<head>
+    <!-- El head contiene configuraciones e informacion que no se ve en la pantalla principal -->
+    <meta charset="UTF-8" />
+    <!-- El charset UTF-8 permite usar letras con acentos, eñes y otros simbolos sin que se vean raros -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Esto hace que la pagina se ajuste al ancho del dispositivo (celular, tablet) y se vea bien -->
+    <title>Iniciar Sesión · NovaMarket</title>
+    <!-- El titulo que aparece en la pestaña del navegador -->
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/NovamarketLogoDEFINITIVO.png') }}" />
+    <!-- El icono pequeño que se muestra al lado del titulo en la pestaña (favicon) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
+    <!-- Cargamos una fuente llamada Inter desde Google Fonts, para que los textos se vean modernos y uniformes -->
+
+    <style>
+        /* AQUI EMPIEZAN LOS ESTILOS CSS (todo lo que da color, forma y posicion a los elementos) */
+
+        /* ── Reinicio de estilos por defecto del navegador ── */
+        * {
+            margin: 0;
+            /* Quitamos los margenes que vienen por defecto */
+            padding: 0;
+            /* Quitamos los rellenos que vienen por defecto */
+            box-sizing: border-box;
+            /* Hacemos que el ancho y alto de los elementos incluyan bordes y rellenos */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Usamos la fuente Inter, y si no se puede cargar, usamos cualquier sans-serif */
+            background: linear-gradient(135deg, #c31432 0%, #240b36 100%);
+            /* Fondo con degradado que va de rojo a morado oscuro */
+            min-height: 100vh;
+            /* El fondo ocupa al menos toda la altura de la ventana */
+            display: flex;
+            /* Usamos flexbox para centrar el contenido */
+            flex-direction: column;
+            /* Los elementos se apilan en columna */
+            justify-content: center;
+            /* Centramos verticalmente */
+            align-items: center;
+            /* Centramos horizontalmente */
+            padding: 20px;
+            /* Espacio alrededor de todo el contenido */
+        }
+
+        /* ── Contenedor principal del formulario de login ── */
+        .login-container {
+            background: white;
+            /* Fondo blanco para el cuadro de login */
+            border-radius: 48px;
+            /* Bordes muy redondeados */
+            padding: 40px 35px;
+            /* Espacio interno: arriba/abajo 40px, izquierda/derecha 35px */
+            max-width: 480px;
+            /* El cuadro no crece mas de 480 pixeles de ancho */
+            width: 100%;
+            /* Ocupa todo el ancho disponible hasta el maximo */
+            box-shadow: 0 30px 45px -15px rgba(0, 0, 0, 0.4);
+            /* Sombra grande debajo del cuadro */
+            transition: transform 0.2s;
+            /* Animacion suave al pasar el mouse */
+        }
+        .login-container:hover {
+            transform: scale(1.008);
+            /* Al poner el mouse encima, el cuadro crece un poquito (efecto flotante) */
+        }
+
+        /* ── Contenedor del logo (sin circulo) ── */
+        .logo-wrapper {
+            display: flex;
+            /* Usamos flexbox para centrar el logo */
+            justify-content: center;
+            /* Centramos horizontalmente */
+            align-items: center;
+            /* Centramos verticalmente */
+            margin-bottom: 10px;
+            /* Espacio debajo del logo */
+        }
+
+        .logo-container {
+            /* Eliminamos el circulo: sin fondo, sin borde redondeado, sin sombra */
+            width: 180px;
+            /* Ancho fijo */
+            height: 180px;
+            /* Alto fijo */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-container img {
+            width: 200%;
+            /* La imagen se agranda al 200% de su contenedor */
+            height: 200%;
+            object-fit: contain;
+            /* Mantiene la proporcion de la imagen sin deformarla */
+            display: block;
+            /* Elimina el espacio extra debajo de la imagen */
+        }
+
+        /* ── Estilos para los titulos ── */
+        h1 {
+            font-size: 2rem;
+            /* Tamaño grande */
+            font-weight: 800;
+            /* Negrita muy gruesa */
+            color: #1a1a2e;
+            /* Color azul oscuro */
+            text-align: center;
+            /* Centrado */
+            margin-top: 12px;
+            /* Espacio arriba */
+            margin-bottom: 4px;
+            /* Espacio abajo */
+        }
+        .subtitulo {
+            text-align: center;
+            color: #5c6f87;
+            /* Color gris azulado */
+            margin-bottom: 28px;
+            /* Espacio debajo */
+            font-size: 0.95rem;
+            /* Tamaño de letra */
+        }
+
+        /* ── Estilos para los campos del formulario ── */
+        .campo {
+            margin-bottom: 20px;
+            /* Separacion entre cada campo */
+        }
+        .campo label {
+            display: block;
+            /* La etiqueta ocupa toda la linea */
+            font-weight: 700;
+            /* Negrita */
+            margin-bottom: 6px;
+            /* Espacio debajo de la etiqueta */
+            color: #2c3e50;
+            /* Color azul oscuro */
+            font-size: 0.9rem;
+        }
+        .campo input {
+            width: 100%;
+            /* Ocupa todo el ancho disponible */
+            padding: 14px 20px;
+            /* Espacio interno */
+            border-radius: 60px;
+            /* Bordes muy redondeados (como pastilla) */
+            border: 1px solid #ddd;
+            /* Borde gris clarito */
+            font-size: 1rem;
+            background: #fafbfc;
+            /* Fondo gris muy clarito */
+            transition: border 0.2s, box-shadow 0.2s;
+            /* Animacion suave al enfocar */
+        }
+        .campo input:focus {
+            border-color: #c31432;
+            /* Cambia el borde a rojo cuando el usuario hace clic en el campo */
+            outline: none;
+            /* Quita el contorno azul por defecto */
+            background: white;
+            /* Fondo blanco */
+            box-shadow: 0 0 0 4px rgba(195, 20, 50, 0.08);
+            /* Sombra roja suave alrededor */
+        }
+
+        /* ── Boton principal de ingresar ── */
+        .btn-ingresar {
+            background: linear-gradient(95deg, #c31432, #240b36);
+            /* Degradado de rojo a morado */
+            color: white;
+            /* Texto blanco */
+            border: none;
+            /* Sin borde */
+            width: 100%;
+            /* Ocupa todo el ancho */
+            padding: 16px;
+            /* Espacio interno */
+            border-radius: 60px;
+            /* Bordes redondeados */
+            font-weight: 700;
+            /* Negrita */
+            font-size: 1.1rem;
+            /* Tamaño de letra */
+            cursor: pointer;
+            /* El cursor cambia a una manita al pasar por encima */
+            transition: 0.2s;
+            /* Animacion suave */
+            margin-top: 6px;
+            /* Pequeño espacio arriba */
+        }
+        .btn-ingresar:hover {
+            opacity: 0.92;
+            /* Al pasar el mouse se oscurece un poco */
+            transform: scale(0.98);
+            /* Se encoge ligeramente */
+        }
+
+        /* ── Enlace para registrarse ── */
+        .registro-link {
+            text-align: center;
+            margin-top: 22px;
+            font-size: 0.95rem;
+        }
+        .registro-link a {
+            color: #c31432;
+            /* Color rojo */
+            font-weight: 700;
+            /* Negrita */
+            text-decoration: none;
+            /* Quita el subrayado por defecto */
+            border-bottom: 2px solid transparent;
+            /* Linea inferior transparente (para efecto hover) */
+            transition: 0.2s;
+        }
+        .registro-link a:hover {
+            border-bottom-color: #c31432;
+            /* Al pasar el mouse, aparece una linea roja debajo */
+        }
+
+        /* ── Mensaje de error (oculto por defecto) ── */
+        .mensaje-error {
+            background: #fee2e2;
+            /* Fondo rojo clarito */
+            color: #991b1b;
+            /* Texto rojo oscuro */
+            padding: 12px 16px;
+            /* Espacio interno */
+            border-radius: 40px;
+            /* Bordes redondeados */
+            text-align: center;
+            /* Texto centrado */
+            font-weight: 600;
+            /* Negrita */
+            margin-bottom: 18px;
+            /* Espacio debajo */
+            display: none;
+            /* Oculto inicialmente */
+            font-size: 0.9rem;
+        }
+        .mensaje-error.mostrar {
+            display: block;
+            /* Cuando se agrega la clase "mostrar", se hace visible */
+        }
+
+        /* ── Boton para volver al inicio ── */
+        .volver {
+            margin-top: 28px;
+            text-align: center;
+        }
+        .btn-volver {
+            background: rgba(0, 0, 0, 0.4);
+            /* Fondo negro semi transparente */
+            backdrop-filter: blur(8px);
+            /* Efecto de vidrio esmerilado */
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            /* Borde blanco semi transparente */
+            padding: 10px 32px;
+            /* Espacio interno */
+            border-radius: 60px;
+            /* Bordes redondeados */
+            color: white;
+            /* Texto blanco */
+            font-weight: 600;
+            /* Negrita */
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.9rem;
+        }
+        .btn-volver:hover {
+            background: #f39c12;
+            /* Al pasar el mouse se vuelve naranja */
+            color: #1e2a3e;
+            /* Texto oscuro */
+        }
+
+        /* ── Pie de pagina ── */
+        footer {
+            margin-top: 32px;
+            color: rgba(255, 255, 255, 0.5);
+            /* Blanco semi transparente */
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+            /* Espaciado entre letras */
+        }
+
+        /* ── Ajustes para pantallas pequeñas (celulares) ── */
+        @media (max-width: 500px) {
+            .login-container {
+                padding: 28px 18px;
+                /* Menos espacio interno */
+            }
+            .logo-container {
+                width: 140px;
+                height: 140px;
+                /* Logo mas pequeño */
+            }
+            h1 {
+                font-size: 1.6rem;
+                /* Titulo mas pequeño */
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ─── CUADRO PRINCIPAL DE LOGIN ─── -->
+    <div class="login-container">
+
+        <!-- ═══ LOGO 2D GRANDE (sin circulo) ═══ -->
+        <div class="logo-wrapper">
+            <div class="logo-container">
+                <!-- Mostramos el logo de la empresa. Si no se encuentra, se ve el texto alternativo -->
+                
+                 <img src="{{ url_for('static', filename='img/NovamarketLogoDEFINITIVO.png') }}"/>
+            </div>
+        </div>
+
+        <!-- ═══ Títulos ═══ -->
+        <h1>Bienvenido</h1>
+        <p class="subtitulo">Inicia sesión para continuar</p>
+
+        <!-- ═══ Mensaje de error del formulario (inicialmente oculto) ═══ -->
+        {% if mensaje %}
+        <div class="mensaje-error mostrar">
+            {{ mensaje }}
+        </div>
+        {% endif %}
+
+        <!-- ═══ Formulario de inicio de sesión ═══ -->
+        <form action="{{ url_for('login') }}" method="POST">
+            <!-- onsubmit="return false;" evita que el formulario se envie de forma tradicional, lo manejamos con JavaScript -->
+
+            <div class="campo">
+                <label for="email">Correo electrónico</label>
+                <!-- Input para el correo, tipo email para que el navegador lo valide un poco -->
+                <input type="email" id="email" name="email" placeholder="ejemplo@correo.com" required />
+            </div>
+
+            <div class="campo">
+                <label for="password">Contraseña</label>
+                <!-- Input para la contraseña, tipo password para que los caracteres se oculten -->
+                <input type="password" id="password" name="password" placeholder="••••••••" required />
+            </div>
+
+            <!-- Boton para enviar el formulario (iniciar sesion) -->
+            <button type="submit" class="btn-ingresar" id="btnLogin">Iniciar Sesión</button>
+        </form>
+
+        <!-- Enlace para registrarse (aun no funciona, solo muestra una alerta) -->
+        <div class="registro-link">
+            ¿No tienes cuenta? <a href="{{ url_for('seleccionar_cuenta') }}">Regístrate aquí</a>
+        </div>
+    </div>
+
+    <!-- ═══ Boton para volver al inicio (menu_cliente.html) ═══ -->
+    <a href="{{ url_for('acceso') }}">
+        <button class="btn-volver">← Volver al inicio</button>
+    </a>
+
+    <!-- Pie de pagina -->
+    <footer>Novarket · Tu mercado local</footer>
+
+    <!-- ═══ AQUI EMPIEZA EL JAVASCRIPT (la logica de inicio de sesion) ═══ -->
+    
+
+</body>
+</html>

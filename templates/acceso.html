@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/NovamarketLogoDEFINITIVO.png') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Acceso Novarket</title>
+
+<link rel="icon" type="image/png"
+      href="{{ url_for('static', filename='img/NovamarketLogoDEFINITIVO.png') }}">
+
+<style>
+
+    *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+    }
+
+    @keyframes luzMovil {
+    0%   { background-position: 0% 0%; }
+    50%  { background-position: 100% 100%; }
+    100% { background-position: 0% 0%; }
+}
+
+body {
+
+    position: relative;
+    /* Gradiente circular: rojo en el centro, azul oscuro en los bordes */
+    background: radial-gradient(circle at center, #bd122e 0%, rgb(14, 31, 48) 70%);
+
+    /* El fondo es el doble de grande para que se pueda mover */
+    background-size: 200% 200%;
+
+    /* Activa la animación: dura 20 segundos, suave, se repite para siempre */
+    animation: luzMovil 20s ease-in-out infinite;
+
+    /* Texto blanco para que se vea sobre el fondo oscuro */
+    color: white;
+
+    /* Tipo de letra de toda la página */
+    font-family: 'Arial', Helvetica, sans-serif;
+
+    min-height:100vh;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        flex-direction:column;
+    }
+
+    
+/* Capa fija, transparente y superior para la imagen */
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background-image: url("{{ url_for('static', filename='img/fondo_formularios.webp') }}");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    opacity: 0.5;
+
+    z-index: 0; /* CAMBIAR */
+    pointer-events: none;
+}
+
+
+    
+
+
+
+    .contenedor{
+
+
+    position: relative;
+    z-index: 1;
+        width:90%;
+        max-width:450px;
+
+        padding:40px;
+
+        border-radius:20px;
+
+        background:rgba(255,255,255,0.08);
+
+        backdrop-filter:blur(10px);
+
+        text-align:center;
+    }
+
+    .logo{
+        width:140px;
+        margin-bottom:20px;
+    }
+
+    h1{
+        margin-bottom:10px;
+    }
+
+    p{
+        margin-bottom:30px;
+        opacity:.8;
+    }
+
+    .boton{
+        display:block;
+
+        width:100%;
+
+        padding:15px;
+
+        margin:12px 0;
+
+        border:none;
+
+        border-radius:12px;
+
+        text-decoration:none;
+
+        color:white;
+
+        font-weight:bold;
+
+        transition:.3s;
+    }
+
+    .cliente{
+        background:#16a34a;
+    }
+
+    .cliente:hover{
+        transform:translateY(-2px);
+    }
+
+    .vendedor{
+        background:#2563eb;
+    }
+
+    .vendedor:hover{
+        transform:translateY(-2px);
+    }
+
+    .invitado{
+        background:#28385b;
+    }
+
+    .invitado:hover{
+        transform:translateY(-2px);
+    }
+
+    .login{
+        background:#f97316;
+    }
+
+    .login:hover{
+        transform:translateY(-2px);
+    }
+
+
+    
+
+</style>
+
+
+</head>
+
+<body>
+
+<div class="contenedor">
+
+    <img
+        class="logo"
+        src="{{ url_for('static', filename='img/novalogoBLANCO.webp') }}"
+        alt="Novarket">
+
+    <h1>Bienvenido</h1>
+
+    <p>Selecciona cómo deseas continuar</p>
+
+    <a href="{{ url_for('seleccionar_cuenta') }}"
+       class="boton invitado">
+        Ver opciones de cuenta
+    </a>
+
+    <a href="{{ url_for('formulario_cliente') }}"
+       class="boton cliente">
+        Registrarme como Cliente
+    </a>
+
+    <a href="{{ url_for('formulario_vendedor') }}"
+       class="boton vendedor">
+        Registrarme como Vendedor
+    </a>
+
+    <a href="{{ url_for('pagina_invitado') }}"
+       class="boton invitado">
+        Invitado
+    </a>
+
+
+    <a href="{{ url_for('login') }}"
+       class="boton login">
+        Iniciar Sesión
+
+    </a>
+
+
+    <a href="{{ url_for('bienvenida') }}" class="boton-entrar"> Regresar</a>
+</div>
+
+
+</body>
+</html>

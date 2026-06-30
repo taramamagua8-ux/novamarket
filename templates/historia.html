@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Historial de Compras | Mercado 360</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+
+min-height:100vh;
+
+background:linear-gradient(
+135deg,
+#e8edf5,
+#f4f6f9,
+#dde6f2
+);
+
+padding:20px;
+}
+
+/* CONTENEDOR */
+
+.contenedor{
+
+max-width:1500px;
+
+margin:auto;
+
+min-height:850px;
+
+display:flex;
+
+border-radius:35px;
+
+overflow:hidden;
+
+background:rgba(255,255,255,.85);
+
+backdrop-filter:blur(15px);
+
+box-shadow:
+0 20px 60px rgba(0,0,0,.15);
+}
+
+/* PANEL IZQUIERDO */
+
+.panel{
+
+width:28%;
+
+background:linear-gradient(
+180deg,
+#7f0000,
+#c00000,
+#ff5e5e
+);
+
+position:relative;
+
+overflow:hidden;
+
+display:flex;
+
+flex-direction:column;
+
+justify-content:center;
+
+align-items:center;
+
+padding:30px;
+}
+
+/* CÍRCULO */
+
+.circulo{
+
+width:650px;
+height:650px;
+
+position:absolute;
+
+top:-330px;
+left:-330px;
+
+border-radius:50%;
+
+background:radial-gradient(
+circle,
+#ff8a80,
+#ff5252,
+#b00000
+);
+
+border:12px solid rgba(255,255,255,.8);
+
+box-shadow:
+0 0 60px rgba(255,255,255,.4),
+0 0 100px rgba(255,0,0,.25);
+}
+
+.titulo-panel{
+
+color:white;
+
+font-size:42px;
+
+font-weight:700;
+
+text-transform:uppercase;
+
+letter-spacing:2px;
+
+z-index:2;
+}
+
+.texto-panel{
+
+color:white;
+
+font-size:18px;
+
+text-align:center;
+
+line-height:1.7;
+
+margin-top:20px;
+
+z-index:2;
+}
+
+.btn-volver{
+
+margin-top:40px;
+
+padding:15px 40px;
+
+border:none;
+
+border-radius:15px;
+
+background:white;
+
+color:#b00000;
+
+font-weight:700;
+
+cursor:pointer;
+
+transition:.3s;
+
+z-index:2;
+}
+
+.btn-volver:hover{
+
+transform:translateY(-5px);
+
+box-shadow:
+0 15px 25px rgba(0,0,0,.25);
+}
+
+/* PANEL DERECHO */
+
+.contenido{
+
+width:72%;
+
+padding:40px;
+}
+
+.titulo{
+
+font-size:38px;
+
+font-weight:700;
+
+color:#2f3d4f;
+
+margin-bottom:25px;
+
+text-transform:uppercase;
+}
+
+/* BUSCADOR */
+
+.buscador{
+
+margin-bottom:25px;
+}
+
+.buscador input{
+
+width:100%;
+
+padding:18px;
+
+border:none;
+
+outline:none;
+
+border-radius:15px;
+
+background:white;
+
+font-size:16px;
+
+box-shadow:
+0 5px 15px rgba(0,0,0,.08);
+}
+
+/* LISTA DE COMPRAS */
+
+.lista-compras{
+
+display:flex;
+
+flex-direction:column;
+
+gap:20px;
+}
+
+/* TARJETA COMPRA */
+
+.compra{
+
+background:white;
+
+padding:25px;
+
+border-radius:25px;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+box-shadow:
+0 10px 20px rgba(0,0,0,.08);
+
+transition:.3s;
+}
+
+.compra:hover{
+
+transform:translateY(-6px);
+
+box-shadow:
+0 20px 35px rgba(0,0,0,.12);
+}
+
+.info-compra h3{
+
+font-size:22px;
+
+color:#2f3d4f;
+
+margin-bottom:10px;
+}
+
+.info-compra p{
+
+color:#666;
+
+margin-bottom:5px;
+}
+
+/* ESTADOS */
+
+.estado{
+
+padding:10px 20px;
+
+border-radius:30px;
+
+font-weight:600;
+
+color:white;
+}
+
+.entregado{
+
+background:#00c853;
+
+box-shadow:
+0 0 15px rgba(0,200,83,.4);
+}
+
+.pendiente{
+
+background:#ff9800;
+
+box-shadow:
+0 0 15px rgba(255,152,0,.4);
+}
+
+.cancelado{
+
+background:#f44336;
+
+box-shadow:
+0 0 15px rgba(244,67,54,.4);
+}
+
+/* BOTÓN */
+
+.btn-detalles{
+
+padding:12px 25px;
+
+border:none;
+
+border-radius:12px;
+
+background:#2196f3;
+
+color:white;
+
+font-weight:600;
+
+cursor:pointer;
+
+transition:.3s;
+}
+
+.btn-detalles:hover{
+
+background:#1976d2;
+}
+
+/* ESTADÍSTICAS */
+
+.resumen{
+
+margin-top:30px;
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(220px,1fr));
+
+gap:20px;
+}
+
+.tarjeta{
+
+background:white;
+
+padding:25px;
+
+border-radius:25px;
+
+text-align:center;
+
+box-shadow:
+0 10px 20px rgba(0,0,0,.08);
+
+transition:.3s;
+}
+
+.tarjeta:hover{
+
+transform:translateY(-5px);
+
+box-shadow:
+0 15px 25px rgba(0,0,0,.12);
+}
+
+.tarjeta h3{
+
+color:#666;
+
+margin-bottom:10px;
+}
+
+.tarjeta span{
+
+font-size:30px;
+
+font-weight:700;
+
+color:#2f3d4f;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1000px){
+
+.contenedor{
+flex-direction:column;
+}
+
+.panel,
+.contenido{
+width:100%;
+}
+
+.compra{
+
+flex-direction:column;
+
+gap:20px;
+
+text-align:center;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="contenedor">
+
+<div class="panel">
+
+<div class="circulo"></div>
+
+<h1 class="titulo-panel">
+Historial
+</h1>
+
+<p class="texto-panel">
+Consulta todas tus compras realizadas dentro de Mercado 360.
+</p>
+
+<a href="{{ url_for('volver_menu') }}" class="btn-volver">
+    Volver
+</a>
+
+</div>
+
+<div class="contenido">
+
+<h2 class="titulo">
+Historial de Compras
+</h2>
+
+<div class="buscador">
+<input type="text" placeholder="Buscar compra, local o fecha...">
+</div>
+
+<div class="lista-compras">
+
+<!--
+
+AQUÍ VAN LAS COMPRAS DE LA BASE DE DATOS
+
+<div class="compra">
+
+<div class="info-compra">
+
+<h3>#COMPRA001</h3>
+
+<p>Fecha: 10/06/2026</p>
+
+<p>Local: Frutas Martínez</p>
+
+<p>Total: $350.00</p>
+
+</div>
+
+<div class="estado entregado">
+Entregado
+</div>
+
+<button class="btn-detalles">
+Ver Detalles
+</button>
+
+</div>
+
+-->
+
+</div>
+
+<div class="resumen">
+
+<div class="tarjeta">
+
+<h3>Total Compras</h3>
+
+<span id="compras">
+0
+</span>
+
+</div>
+
+<div class="tarjeta">
+
+<h3>Dinero Gastado</h3>
+
+<span id="gastado">
+$0.00
+</span>
+
+</div>
+
+<div class="tarjeta">
+
+<h3>Pendientes</h3>
+
+<span id="pendientes">
+0
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>

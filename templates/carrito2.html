@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Historial de Compras</title>
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+@keyframes luzMovil {
+    0%   { background-position: 0% 0%; }
+    50%  { background-position: 100% 100%; }
+    100% { background-position: 0% 0%; }
+}
+
+body {
+    /* Un círculo de luz roja que se difumina hacia el azul oscuro oscuro */
+    background: radial-gradient(circle at center, #bd122e 0%, rgb(41, 103, 164) 70%);
+    background-size: 200% 200%; /* Agrandamos el radio para poder moverlo */
+    animation: luzMovil 20s ease-in-out infinite;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    min-height:100vh;
+    overflow-x:hidden;
+    position:relative;
+} 
+
+.navbar-contenedor {
+    width: 100%;             
+    position: relative;
+}
+
+.navbar-imagen {
+    width: 100%;             
+    height: auto;            
+    display: block;          
+}
+
+.contenedor-3d {
+    position: absolute;       
+    left: 20px;               
+    top: -340px;                
+    width: 1000px;             
+    height: 1000px;            
+    display: flex;
+    align-items: center;
+    justify-content: leFT;
+    background: transparent;  
+    z-index: 999;
+}
+
+model-viewer.objeto-3d {  
+    width: 400px;
+    height: 300px;
+    background-color: transparent; 
+    --poster-color: transparent;
+}
+
+/* body{
+    min-height:100vh;
+    background:linear-gradient(to bottom,#d8e8f2,#c5dae6);
+    overflow-x:hidden;
+    position:relative;
+}*/
+
+/* CIRCULO GRANDE 
+
+.circulo{
+    position:absolute;
+    width:950px;
+    height:950px;
+    border-radius:50%;
+
+    background:
+    radial-gradient(
+        circle,
+        #a5002a 0%,
+        #81001f 60%,
+        #670019 100%
+    );
+
+    top:-550px;
+    left:-280px;
+
+    border:15px solid rgba(255,255,255,.12);
+
+    box-shadow:
+    inset 0 0 80px rgba(255,255,255,.15),
+    0 10px 40px rgba(0,0,0,.15);
+}
+
+ HEADER 
+
+.header{
+    width:100%;
+    height:110px;
+
+    background:
+    linear-gradient(
+        to right,
+        #79001d,
+        #e00053
+    );
+
+    border-bottom:6px solid rgba(255,255,255,.15);
+
+    display:flex;
+    justify-content:flex-end;
+    align-items:center;
+
+    padding-right:40px;
+
+    position:relative;
+    z-index:10;
+
+    box-shadow:
+    0 5px 20px rgba(0,0,0,.25);
+}*/
+
+.logo-local{
+    width:110px;
+    height:110px;
+    object-fit:contain;
+}
+
+/* CONTENEDOR */
+
+.contenedor{
+    width:78%;
+    max-width:1500px;
+    margin:40px auto;
+    display:flex;
+    gap:30px;
+    position:relative;
+    z-index:5;
+    transform: translateY(-500px);
+    margin-left: 535px;
+    margin-top: 200px;
+}
+
+/* PANEL IZQUIERDO */
+
+.panel-info{
+    width:22%;
+
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+}
+
+.imagen-lateral{
+    width:230px;
+
+    filter:
+    drop-shadow(
+        0 10px 20px rgba(0,0,0,.25)
+    );
+}
+
+/* HISTORIAL */
+
+.historial{
+    width:78%;
+    border-radius:35px;
+    padding:25px;
+    border:5px solid rgba(255,255,255,.12);
+    box-shadow:
+    0 15px 35px rgba(0,0,0,.25);
+}
+
+.titulo{
+    color:white;
+    text-align:center;
+
+    font-size:42px;
+    font-weight:700;
+
+    margin-bottom:20px;
+
+    text-shadow:
+    2px 2px 8px rgba(0,0,0,.3);
+}
+
+/* PERFIL */
+
+.perfil{
+    background:white;
+
+    border-radius:25px;
+
+    padding:25px;
+
+    text-align:center;
+
+    margin-bottom:25px;
+
+    box-shadow:
+    0 5px 15px rgba(0,0,0,.1);
+}
+
+.perfil img{
+    width:140px;
+    height:140px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    border:6px solid #f0f0f0;
+
+    box-shadow:
+    0 5px 15px rgba(0,0,0,.2);
+}
+
+.perfil h2{
+    margin-top:15px;
+    color:#333;
+    font-size:30px;
+}
+
+/* LISTA */
+
+.lista{
+    background:#f5f5f5;
+
+    border-radius:25px;
+
+    padding:20px;
+
+    max-height:450px;
+
+    overflow-y:auto;
+
+    border:3px solid white;
+}
+
+/* TARJETAS */
+
+.compra{
+    background:white;
+
+    border-left:10px solid #e00053;
+
+    border-radius:18px;
+
+    padding:18px;
+
+    margin-bottom:18px;
+
+    box-shadow:
+    0 5px 15px rgba(0,0,0,.12);
+
+    transition:.3s;
+}
+
+.compra:hover{
+    transform:
+    translateX(8px);
+
+    box-shadow:
+    0 8px 20px rgba(0,0,0,.2);
+}
+
+.compra h3{
+    color:#222;
+    margin-bottom:10px;
+}
+
+.compra p{
+    color:#555;
+    margin-top:5px;
+}
+
+/* SCROLL */
+
+.lista::-webkit-scrollbar{
+    width:12px;
+}
+
+.lista::-webkit-scrollbar-track{
+    background:#e0e0e0;
+    border-radius:20px;
+}
+
+.lista::-webkit-scrollbar-thumb{
+    background:#d40050;
+    border-radius:20px;
+}
+
+/* BOTON */
+
+.contenedor-boton{
+    display:flex;
+    justify-content:center;
+
+    margin-top:25px;
+}
+
+.btn-volver{
+    background:
+    linear-gradient(
+        to bottom,
+        #ff0066,
+        #aa0035
+    );
+
+    color:white;
+
+    text-decoration:none;
+
+    padding:18px 65px;
+
+    border-radius:18px;
+
+    font-size:22px;
+
+    font-weight:700;
+
+    transition:.3s;
+
+    box-shadow:
+    0 8px 15px rgba(0,0,0,.25);
+}
+
+.btn-volver:hover{
+    transform:
+    translateY(-4px);
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1000px){
+
+    .contenedor{
+        flex-direction:column;
+    }
+
+    .panel-info{
+        width:100%;
+    }
+
+    .historial{
+        width:100%;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+    <header class="navbar-contenedor">
+
+        <img src="{{ url_for('static', filename='img/navbar.png') }}"
+             alt="Navbar"
+             class="navbar-imagen">
+
+         <div class="contenedor-3d">
+            <model-viewer
+                class="objeto-3d"
+                src="{{ url_for('static', filename='img/LogoNovarket5.glb') }}"
+                camera-controls
+                interaction-prompt="none"
+                camera-orbit="0deg 75deg auto"
+                field-of-view="40deg"
+                auto-rotate
+                rotation-per-second="30deg">
+            </model-viewer>     
+    </header>
+
+<div class="circulo"></div>
+
+
+<div class="contenedor">
+
+    
+
+    <div class="historial">
+
+        <h1 class="titulo">
+            Historial de Compras
+        </h1>
+
+        <div class="perfil">
+
+            <!-- FOTO PERFIL -->
+            <img src="{{ url_for('static', filename='img/NovamarketLogoDEFINITIVO.png') }}" alt="Perfil">
+
+            <h2>Mis Compras</h2>
+
+        </div>
+
+        <div class="lista" id="listaCompras">
+            {% if compras %}
+                {% for compra in compras %}
+                <div class="compra">
+                    <h3>Compra #{{ compra.id_venta }}</h3>
+                    <p><strong>Producto:</strong> {{ compra.Marca }}</p>
+                    <p><strong>Cantidad:</strong> {{ compra.cantidad }}</p>
+                    <p><strong>Precio unitario:</strong> ${{ '%.2f'|format(compra.precio) }}</p>
+                    <p><strong>Total:</strong> ${{ '%.2f'|format(compra.total) }}</p>
+                    <p><a href="{{ url_for('producto', id_producto=compra.id_producto) }}">Ver producto</a></p>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="compra">
+                    <h3>No hay compras registradas</h3>
+                    <p>Cuando compres productos desde la página de producto, aparecerán aquí automáticamente.</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="contenedor-boton">
+
+            <a href="{{ url_for('volver_menu') }}" class="btn-volver">
+                Volver
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.2.0/model-viewer.min.js"></script>
+
+</body>
+</html>

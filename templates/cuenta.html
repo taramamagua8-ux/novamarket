@@ -1,0 +1,44 @@
+<!DOCTYPE html> <!--Indica que el documento utiliza HTML5-->
+<html lang="es"> <!--Es el inicio del documento e indica que el lenguaje es español-->
+
+<head> <!--Contenedor de informacion que no se muestra en la pagina-->
+    <meta charset="UTF-8"> <!--Es la codificacion de caracteres para aceptar letras, acentos y otros caracteres especiales-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!--Hace que la pagina se adapte a diferentes tamaños de pantalla-->
+    <title>Crea tu cuenta</title> <!--Titulo que aparece en la pestaña del navegador-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style3.css') }}"> <!--Enlaza el archivo de estilo CSS-->
+</head> <!--Cierra el contenedor de informacion-->
+
+<body> <!--Contenedor principal del cuerpo de la pagina-->
+<div class="crearcuenta-contenedor"> <!--Contenedor principal de la pagina y usa la clase crearcuenta-contenedor para luego usar CSS-->
+    <div class="crearcuenta-fondo"></div> <!--Crea una capa que sirve como un fondo oscuro encima de la imagen para que se vea mejor-->
+
+    <div class="crearcuenta-contenido"> <!--Contenedor del contenido principal de la pagina y usa la clase crearcuenta-contenido para luego usar CSS-->
+
+        <h1> <!--Contenedor del título principal-->
+            !Crea tu cuenta¡ <!--Texto del título-->
+        </h1> <!--Cierra el contenedor del título principal-->
+
+        <h2> <!--Contenedor del subtítulo-->
+            ¿Cómo quieres continuar? <!--Texto del subtítulo que te pregunta ¿Cómo quieres continuar? para saber si iniciarás como vendedor o cliente-->
+        </h2> <!--Cierra el contenedor del subtítulo-->
+
+        <div class="crearcuenta-botones"> <!--Contenedor de los botones para elegir entre vendedor o cliente y usa la clase crearcuenta-botones para luego usar CSS-->
+            <a href="{{ url_for('formulario_vendedor') }}" class="btn-vendedor"> <!--Enlace para ir al formulario de vendedor y usa la clase btn-vendedor para luego usar CSS-->
+                Vendedor <!--Texto del botón para elegir ser vendedor-->
+            </a> <!--Cierra el enlace-->
+
+            <a href="{{ url_for('formulario_cliente') }}" class="btn-cliente"> <!--Enlace para ir al formulario de cliente y usa la clase btn-cliente para luego usar CSS-->
+                Cliente <!--Texto del botón para elegir ser cliente-->
+            </a> <!--Cierra el enlace-->
+        </div> <!--Cierra el contenedor de los botones para elegir entre vendedor o cliente-->
+
+        <a href="{{ url_for('pagina_invitado') }}" class="btn-invitado"> <!--Enlace para ir a la página principal sin iniciar sesión y usa la clase btn-invitado para luego usar CSS-->
+            Invitado <!--Texto del botón para elegir ser invitado y no iniciar sesión-->
+        </a> <!--Cierra el enlace-->
+
+    </div> <!--Cierra el contenedor del contenido principal de la pagina-->
+    </div> <!--Cierra el contenedor principal de la pagina-->
+
+</body> <!--Cierra el contenedor principal del cuerpo de la pagina-->
+
+</html> <!--Cierra el documento HTML-->

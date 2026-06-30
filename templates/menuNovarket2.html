@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+    <link rel="icon"
+          type="image/png"
+          href="{{ url_for('static', filename='img/NovamarketLogoDEFINITIVO.png') }}">
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Novarket</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style4.css') }}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+<body>
+
+
+    <!-- ══════════════════════════════════════
+         ENCABEZADO: NAVBAR + LOGO 3D + CARRUSEL
+         Todo lo que aparece hasta arriba de la página
+    ══════════════════════════════════════ -->
+    <header class="navbar-contenedor">
+
+        <!-- Imagen de fondo de la barra de navegación -->
+        <img src="{{ url_for('static', filename='img/navbar.png') }}"
+            alt="Navbar"
+            class="navbar-imagen">
+
+
+        <!-- ── LOGO 3D GIRATORIO ──────────────────
+             El logo animado que flota sobre la navbar.
+             Usa la librería model-viewer (se carga al final).
+        ─────────────────────────────────────────── -->
+        <div class="contenedor-3d">
+            <model-viewer
+                class="objeto-3d"
+                src="{{ url_for('static', filename='img/LogoNovarket5.glb') }}"
+                camera-control
+                interaction-prompt="none"
+                camera-orbit="0deg 75deg auto"
+                field-of-view="40deg"
+                auto-rotate
+                rotation-per-second="25deg">
+            </model-viewer>
+        </div>
+
+
+        <main class="pagina-contenido">
+            <div class="carrusel-contenedor">
+                <div class="carrusel-contenedor">
+                <video class="video-promocional"
+       autoplay
+       muted
+       loop
+       playsinline
+       preload="auto">
+
+    <source src="{{ url_for('static', filename='video/navbardef1.mp4') }}"
+            type="video/mp4">
+
+            </div>
+        </main>
+
+    </header>
+    <!-- FIN DEL ENCABEZADO -->
+
+    <h2 class="titulo-tiendas">¡MIRA TODOS NUESTROS LOCALES!</h2>
+
+<section class="seccion-tiendas">
+    {% for local in locales %}
+    <a href="{{ url_for('detalle_local', id_local=local.id_local) }}" class="btn-tienda">
+        <img src="{{ url_for('static', filename=local.imagen) }}" alt="{{ local.nombre_local }}">
+        <span class="btn-tienda-nombre">{{ local.nombre_local or ('Local ' ~ local.num_local) }}</span>
+        <small style="color:white; display:block; margin-top:6px;">{{ local.tipo_producto or 'Productos variados' }} · {{ local.total_productos }} productos</small>
+    </a>
+    {% else %}
+    <p style="color:white; text-align:center; width:100%;">Aún no hay locales registrados.</p>
+    {% endfor %}
+</section>
+<!-- FIN DE SECCIÓN DE TIENDAS -->
+
+
+
+
+    <!-- ══════════════════════════════════════
+         SCRIPTS — SE CARGAN AL FINAL
+         Así la página aparece rápido y luego
+         cargan los extras (3D y carrusel)
+    ══════════════════════════════════════ -->
+
+    <!-- Librería del logo 3D (viene de internet, no necesitas descargarla) -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.2.0/model-viewer.min.js"></script>
+
+
+
+    <footer class="pie-pagina">
+
+    <!-- Logo izquierdo -->
+    <img src="{{ url_for('static', filename='img/CM360logo.webp') }}"
+     alt="Conecta Mercado 360"
+     class="pie-logo">
+    <!-- Mensaje central con degradado -->
+    
+    <h2 class="pie-mensaje">!Damos gracias a todos los locatarios que nos <br> permitieron usar su informacion para esta pagina web!</h2>
+    <!-- Logo derecho -->
+    <img src="{{ url_for('static', filename='img/novalogoBLANCO.webp') }}"
+     alt="Novarket"
+     class="pie-logo">
+
+     <div class="menu-opciones">
+
+           <div class="menu-opciones">
+
+    <a href="{{ url_for('promociones_vendedor') }}" class="opcion-menu">
+        <i class="fa-solid fa-tags"></i>
+        <span>Mis promociones</span>
+    </a>
+
+    <a href="{{ url_for('productos_vendedor') }}" class="opcion-menu">
+        <i class="fa-solid fa-box"></i>
+        <span>Mis productos</span>
+    </a>
+
+    <a href="{{ url_for('carrito2') }}" class="opcion-menu">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span>Mi carrito</span>
+    </a>
+
+    <a href="{{ url_for('mi_local') }}" class="opcion-menu">
+        <i class="fa-solid fa-store"></i>
+        <span>Mi local</span>
+    </a>
+
+    <a href="{{ url_for('logout') }}" class="opcion-menu cerrar-sesion">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        <span>Cerrar sesión</span>
+    </a>
+
+</div>
+            
+        </div>
+
+</footer>
+
+
+</body>
+</html>

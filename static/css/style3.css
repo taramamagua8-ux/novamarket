@@ -1,0 +1,300 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+@keyframes luzMovil{
+    0%{
+        background-position:0% 0%;
+    }
+    50%{
+        background-position:100% 100%;
+    }
+    100%{
+        background-position:0% 0%;
+    }
+}
+
+body{
+    position:relative;
+
+    background:radial-gradient(
+        circle at center,
+        #bd122e 0%,
+        rgb(14,31,48) 70%
+    );
+
+    background-size:200% 200%;
+    animation:luzMovil 20s ease-in-out infinite;
+
+    color:white;
+    font-family:Arial, Helvetica, sans-serif;
+
+    min-height:100vh;
+}
+
+body::before{
+    content:"";
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:100%;
+    height:100%;
+    
+
+     background-image: url("{{ url_for('static', filename='img/fondo_formularios.webp') }}");
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+
+    opacity:.45;
+
+    z-index:0;
+    pointer-events:none;
+}
+
+/* =================================
+   PANTALLA CREAR CUENTA
+================================= */
+
+.crearcuenta-contenedor{
+    height:100vh;
+    width:100%;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    position:relative;
+    z-index:1;
+}
+
+.crearcuenta-fondo{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.65);
+}
+
+.crearcuenta-contenido{
+    position:relative;
+    z-index:1;
+
+    color:white;
+    text-align:center;
+}
+
+.crearcuenta-contenido h1{
+    font-size:70px;
+    font-weight:900;
+    margin-bottom:20px;
+}
+
+.crearcuenta-contenido h2{
+    font-size:35px;
+    margin-bottom:50px;
+}
+
+.crearcuenta-botones{
+    display:flex;
+    justify-content:center;
+    gap:50px;
+}
+
+.btn-vendedor,
+.btn-cliente,
+.btn-invitado{
+    text-decoration:none;
+    color:white;
+    font-weight:bold;
+    border-radius:25px;
+    display:inline-block;
+    transition:.3s;
+    box-shadow:0px 10px 25px rgba(0,0,0,.5);
+}
+
+.btn-vendedor{
+    background:#e90046;
+    padding:40px 90px;
+    font-size:50px;
+}
+
+.btn-vendedor:hover{
+    transform:scale(1.1);
+}
+
+.btn-cliente{
+    background:#168bd0;
+    padding:40px 100px;
+    font-size:50px;
+}
+
+.btn-cliente:hover{
+    transform:scale(1.1);
+}
+
+.btn-invitado{
+    margin-top:60px;
+    background:#303b55;
+    padding:20px 90px;
+    font-size:30px;
+}
+
+.btn-invitado:hover{
+    transform:scale(1.1);
+}
+
+@media(max-width:800px){
+
+    .crearcuenta-contenido h1{
+        font-size:45px;
+    }
+
+    .crearcuenta-botones{
+        flex-direction:column;
+    }
+}
+
+/* =================================
+   FORMULARIOS VENDEDOR Y CLIENTE
+================================= */
+
+.form-pantalla{
+    width:100%;
+    min-height:100vh;
+    height:auto;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    position:relative;
+    z-index:1;
+}
+
+.form-fondo{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,.65);
+}
+
+.form-card{
+    position:relative;
+    z-index:1;
+
+    width:620px;
+    padding:35px;
+
+    border-radius:25px;
+
+    display:flex;
+    flex-direction:column;
+}
+
+.form-card select{
+    height:55px;
+    border-radius:18px;
+    border:none;
+    padding:15px;
+    font-size:20px;
+    outline:none;
+    background:white;
+}
+
+.direccion-doble{
+    display:flex;
+    gap:15px;
+    width:100%;
+}
+
+.direccion-doble input{
+    width:50%;
+}
+
+.vendedor-card{
+    background:linear-gradient(135deg,#ff0050,#b90050);
+}
+
+.cliente-card{
+    background:linear-gradient(135deg,#8fc3df,#167dbd);
+}
+
+.form-card h1{
+    text-align:center;
+    color:white;
+    font-size:65px;
+    font-weight:900;
+    margin-bottom:30px;
+}
+
+.form-card form{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+}
+
+.form-card input{
+    height:55px;
+    border-radius:18px;
+    border:none;
+    padding:15px;
+    font-size:20px;
+    outline:none;
+}
+
+.form-card button{
+    height:70px;
+    border-radius:20px;
+    border:none;
+    background:white;
+    font-size:25px;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:15px;
+}
+
+.btn-vendedor-enviar:hover{
+    transform:scale(1.058);
+    background:#f7356f;
+    color:white;
+    box-shadow:0px 8px 20px rgba(0,0,0,.4);
+}
+
+.btn-cliente-enviar:hover{
+    transform:scale(1.058);
+    background:#54aadb;
+    color:white;
+    box-shadow:0px 8px 20px rgba(0,0,0,.4);
+}
+
+.form-cerrar{
+    position:absolute;
+    right:30px;
+    top:20px;
+
+    text-decoration:none;
+
+    color:rgb(76,0,0);
+
+    font-size:45px;
+    font-weight:bold;
+}
+
+.comprobante{
+    display:flex;
+    background:white;
+    border-radius:15px;
+    padding:12px;
+    align-items:center;
+    gap:15px;
+    font-size:18px;
+}
+
+.comprobante input{
+    height:auto;
+    font-size:15px;
+}

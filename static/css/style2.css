@@ -1,0 +1,227 @@
+/* ==========================================
+   ANIMACIONES
+========================================== */
+
+@keyframes pulso {
+    0% { transform: scale(1); }
+    30% { transform: scale(1.09); }
+    100% { transform: scale(1); }
+}
+
+@keyframes fondoAnimado {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ==========================================
+   RESETEO GENERAL
+========================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ==========================================
+   BODY
+========================================== */
+
+body {
+    background: linear-gradient(
+        45deg,
+        #2988c8,
+        rgb(129, 7, 25),
+        rgb(112, 3, 34),
+        #0b4961
+    );
+
+    background-size: 400% 400%;
+    animation: fondoAnimado 20s ease infinite;
+    background-attachment: fixed;
+
+    min-height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+/* ==========================================
+   TEXTOS PRINCIPALES
+========================================== */
+
+.texto-principal {
+    font-family: 'Anton', sans-serif;
+    color: white;
+    animation: pulso 2s ease infinite;
+    position: absolute;
+    z-index: 10;
+}
+
+h1.texto-principal {
+    top: 300px;
+    left: 80px;
+    font-size: 55px;
+    text-align: left;
+}
+
+h2.texto-principal {
+    top: 320px;
+    bottom: 100px;
+    right: 60px;
+    font-size: 40px;
+    text-align: left;
+}
+
+/* ==========================================
+   MODELO 3D
+========================================== */
+
+model-viewer {
+    width: 550px;
+    height: 550px;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+}
+
+/* ==========================================
+   BARRA SUPERIOR
+========================================== */
+
+.presentado-por {
+    position: absolute;
+    top: 20px;
+    left: 0;
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 40px;
+    z-index: 20;
+}
+
+.logo-izquierda {
+    width: 90px;
+    margin-right: auto;
+}
+
+.presentado-por img {
+    width: 90px;
+    animation: pulso 2s ease infinite;
+}
+
+.presentado-por span {
+    color: white;
+    font-family: 'Anton', sans-serif;
+    font-size: 18px;
+    margin-right: 15px;
+}
+
+.presentado-por img:last-child {
+    width: 90px;
+}
+
+/* ==========================================
+   BOTÓN ENTRAR
+========================================== */
+
+.boton-entrar {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    background-color: rgb(63, 6, 18);
+    color: white;
+
+    font-family: 'Anton', sans-serif;
+    font-size: 20px;
+
+    padding: 14px 45px;
+
+    border-radius: 10px;
+    text-decoration: none;
+
+    cursor: pointer;
+    transition: 0.3s;
+
+    animation: pulso 1.5s ease infinite;
+
+    z-index: 20;
+}
+
+.boton-entrar:hover {
+    background-color: rgb(180, 250, 238);
+    color: black;
+}
+
+/* ==========================================
+   BOTÓN VOLVER
+========================================== */
+
+.boton-volver {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+
+    background-color: rgb(50, 118, 11);
+    color: white;
+
+    font-family: 'Anton', sans-serif;
+    font-size: 18px;
+
+    padding: 12px 40px;
+
+    border-radius: 10px;
+    text-decoration: none;
+
+    cursor: pointer;
+    transition: 0.3s;
+
+    animation: pulso 1.5s ease infinite;
+}
+
+.boton-volver:hover {
+    background-color: rgb(180, 250, 238);
+    color: black;
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 768px) {
+
+    h1.texto-principal {
+        font-size: 38px;
+        top: 100px;
+        left: 20px;
+    }
+
+    h2.texto-principal {
+        font-size: 28px;
+        left: 20px;
+        bottom: 120px;
+    }
+
+    model-viewer {
+        width: 350px;
+        height: 350px;
+    }
+
+    .presentado-por img,
+    .logo-izquierda {
+        width: 60px;
+    }
+
+    .boton-entrar {
+        width: 80%;
+        text-align: center;
+    }
+}

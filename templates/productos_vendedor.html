@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Productos | NovaMarket</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+/* ========================= */
+/* FONDO NOVAMARKET */
+/* ========================= */
+
+@keyframes luzMovil{
+    0%{background-position:0% 0%;}
+    50%{background-position:100% 100%;}
+    100%{background-position:0% 0%;}
+}
+
+body{
+
+    background:
+    radial-gradient(
+        circle at center,
+        #bd122e 0%,
+        rgb(14,31,48) 70%
+    );
+
+    background-size:200% 200%;
+
+    animation:luzMovil 20s ease-in-out infinite;
+
+    min-height:100vh;
+
+    padding:40px;
+
+    color:white;
+}
+
+/* ========================= */
+/* ENCABEZADO */
+/* ========================= */
+
+header{
+    text-align:center;
+    margin-bottom:40px;
+}
+
+header h1{
+
+    font-size:3rem;
+
+    color:white;
+
+    margin-bottom:10px;
+}
+
+header p{
+
+    color:rgba(255,255,255,.8);
+
+    font-size:18px;
+}
+
+/* ========================= */
+/* FORMULARIO */
+/* ========================= */
+
+.formulario{
+
+    max-width:700px;
+
+    margin:0 auto 40px;
+
+    background:rgba(255,255,255,.08);
+
+    backdrop-filter:blur(15px);
+
+    border:1px solid rgba(255,255,255,.15);
+
+    padding:30px;
+
+    border-radius:25px;
+
+    box-shadow:
+    0 0 25px rgba(0,0,0,.3);
+}
+
+.formulario h2{
+
+    margin-bottom:20px;
+
+    text-align:center;
+
+    color:white;
+}
+
+.formulario input{
+
+    width:100%;
+
+    padding:14px;
+
+    margin-bottom:15px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:rgba(255,255,255,.1);
+
+    color:white;
+
+    outline:none;
+}
+
+.formulario input::placeholder{
+
+    color:rgba(255,255,255,.7);
+}
+
+.formulario button{
+
+    width:100%;
+
+    padding:15px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#bd122e;
+
+    color:white;
+
+    font-size:16px;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.formulario button:hover{
+
+    background:#e11d48;
+
+    transform:translateY(-3px);
+}
+
+/* ========================= */
+/* MENSAJE VACÍO */
+/* ========================= */
+
+.vacio{
+
+    text-align:center;
+
+    padding:50px;
+
+    color:white;
+
+    font-size:1.2rem;
+}
+
+/* ========================= */
+/* TARJETAS */
+/* ========================= */
+
+.productos{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fill,minmax(320px,1fr));
+
+    gap:25px;
+}
+
+.tarjeta{
+
+    background:rgba(255,255,255,.08);
+
+    backdrop-filter:blur(15px);
+
+    border:1px solid rgba(255,255,255,.15);
+
+    border-radius:20px;
+
+    padding:25px;
+
+    box-shadow:
+    0 0 20px rgba(0,0,0,.25);
+
+    animation:aparecer .3s ease;
+}
+
+.nombre{
+
+    font-size:1.4rem;
+
+    font-weight:bold;
+
+    color:white;
+
+    margin-bottom:15px;
+}
+
+.info{
+
+    font-size:17px;
+
+    margin-bottom:10px;
+
+    color:white;
+}
+
+.precio{
+
+    color:#7dffb3;
+
+    font-size:2rem;
+
+    font-weight:bold;
+
+    margin:15px 0;
+}
+
+.eliminar{
+
+    width:100%;
+
+    border:none;
+
+    background:#dc3545;
+
+    color:white;
+
+    padding:12px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+}
+
+.eliminar:hover{
+    background:#b02a37;
+}
+
+@keyframes aparecer{
+
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+    <h1> Productos NovaMarket</h1>
+
+    <p>Administra los productos de tu local</p>
+
+    <a href="{{ url_for('menu_vendedor') }}" style="color:white; display:inline-block; margin-top:12px;">← Volver al menú</a>
+
+</header>
+
+<form class="formulario" method="POST" action="{{ url_for('productos_vendedor') }}">
+
+    <h2>Nuevo Producto</h2>
+
+    <input type="text" name="nombre" placeholder="Nombre del producto" required>
+    <input type="number" name="precio" min="0.01" step="0.01" placeholder="Precio" required>
+    <input type="text" name="peso" placeholder="Peso (Ej: 500g)">
+    <input type="text" name="tamano" placeholder="Tamaño (Ej: Grande)">
+
+    <button type="submit">Guardar Producto</button>
+
+</form>
+
+{% if productos %}
+<div class="productos">
+    {% for producto in productos %}
+    <div class="tarjeta">
+        <div class="nombre">{{ producto.Marca }}</div>
+        <div class="info">Peso: {{ producto.Peso or 'No especificado' }}</div>
+        <div class="info">Tamaño: {{ producto['Tamaño'] or 'No especificado' }}</div>
+        <div class="precio">${{ '%.2f'|format(producto.precio) }}</div>
+        <a href="{{ url_for('producto', id_producto=producto.id_producto) }}" style="display:inline-block;margin:10px 0;color:#bd122e;font-weight:bold;">Ver página pública</a>
+        <form method="POST" action="{{ url_for('eliminar_producto', id_producto=producto.id_producto) }}">
+            <button type="submit" class="eliminar">Eliminar</button>
+        </form>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="vacio">No hay productos registrados.</div>
+{% endif %}
+
+</body>
+
+</html>
